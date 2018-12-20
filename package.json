@@ -1,0 +1,28 @@
+{
+  "name": "com.saralweb.bgsampleapp",
+  "version": "1.0.0",
+  "displayName": "BG Sample",
+  "cordova": {
+    "platforms": [
+      "android"
+    ],
+    "plugins": {
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-saralweb-background-geolocation": {
+        "LOCATION_ALWAYS_USAGE_DESCRIPTION": "Tracking permission is required for app to work",
+        "LOCATION_WHEN_IN_USE_USAGE_DESCRIPTION": "Tracking permission is required for app to work",
+        "LOCATION_ALWAYS_AND_WHEN_IN_USE_USAGE_DESCRIPTION": "Tracking permission is required for app to work"
+      },
+      "cordova-android-support-gradle-release": {
+        "ANDROID_SUPPORT_VERSION": "27.+"
+      }
+    }
+  },
+  "dependencies": {
+    "android-versions": "^1.4.0",
+    "cordova-android": "~6.3.0",
+    "cordova-android-support-gradle-release": "^2.0.1",
+    "cordova-plugin-saralweb-background-geolocation": "^2.4.0",
+    "cordova-plugin-whitelist": "1"
+  }
+}
