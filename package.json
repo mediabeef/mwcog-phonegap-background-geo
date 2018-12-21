@@ -4,7 +4,8 @@
   "displayName": "BG Sample",
   "cordova": {
     "platforms": [
-      "android"
+      "android",
+      "ios"
     ],
     "plugins": {
       "cordova-plugin-whitelist": {},
@@ -22,6 +23,7 @@
     "android-versions": "^1.4.0",
     "cordova-android": "~6.3.0",
     "cordova-android-support-gradle-release": "^2.0.1",
+    "cordova-ios": "^4.5.5",
     "cordova-plugin-saralweb-background-geolocation": "^2.4.0",
     "cordova-plugin-whitelist": "1"
   }
