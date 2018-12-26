@@ -1,0 +1,7 @@
+
+sync: locationManager flushQueue() line 435 -> Location.m postAsJson()
+
+sync call: LocationUploader.m sync()
+
+
+mobile app: bgConfigure line 174: call command configure

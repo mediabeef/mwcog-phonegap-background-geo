@@ -13,7 +13,7 @@
 
 @implementation Config
 
-@synthesize stationaryRadius, distanceFilter, desiredAccuracy, isDebugging, activityType, stopOnTerminate, url, syncUrl, syncThreshold, httpHeaders, saveBatteryOnBackground, maxLocations, pauseLocationUpdates;
+@synthesize stationaryRadius, distanceFilter, desiredAccuracy, isDebugging, activityType, stopOnTerminate, url, syncUrl, commuter_id, trip_id, start_lat, start_lng, end_lat, end_lng, syncThreshold, httpHeaders, saveBatteryOnBackground, maxLocations, pauseLocationUpdates;
 
 -(id) init {
     self = [super init];
@@ -32,6 +32,12 @@
     maxLocations = 10000;
     syncThreshold = 100;
     pauseLocationUpdates = YES;
+    commuter_id = -1;
+    trip_id = @"n/a";
+    start_lat = -99999;
+    start_lng = -99999;
+    end_lat = -99999;
+    end_lng = -99999;
 
     return self;
 }
@@ -66,6 +72,26 @@
     } else if (isNull(config[@"url"])) {
         instance.syncUrl = config[@"url"];
     }
+    
+    if (isNotNull(config[@"commuter_id"])) {
+        instance.commuter_id = [config[@"commuter_id"] integerValue];
+    }
+    if (isNotNull(config[@"trip_id"])) {
+        instance.trip_id = config[@"trip_id"];
+    }
+    if (isNotNull(config[@"start_lat"])) {
+        instance.start_lat = [config[@"start_lat"] doubleValue];
+    }
+    if (isNotNull(config[@"start_lng"])) {
+        instance.start_lng = [config[@"start_lng"] doubleValue];
+    }
+    if (isNotNull(config[@"end_lat"])) {
+        instance.end_lat = [config[@"end_lat"] doubleValue];
+    }
+    if (isNotNull(config[@"end_lng"])) {
+        instance.end_lng = [config[@"end_lng"] doubleValue];
+    }
+
     if (isNotNull(config[@"syncThreshold"])) {
         instance.syncThreshold = [config[@"syncThreshold"] integerValue];
     }

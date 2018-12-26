@@ -33,6 +33,12 @@ var bgOptions = {
     url: 'http://192.168.1.9/v1/geolocation',//server
     // url: 'http://192.168.1.3/v1/geolocation',//brianmsi
     //syncUrl: 'http://192.168.3.185:3000/sync',
+    commuter_id: 123789,
+    trip_id: 'test_trip_id',
+    start_lat: 999998,
+    start_lng: 999997,
+    end_lat: 51.5099,//london uk
+    end_lng: 0.1337,//london uk
     syncThreshold: 10,
     mwc_username: 'mwc_usernametest',
     httpHeaders: {
@@ -44,7 +50,7 @@ var bgOptions = {
 };
 
 var mapOptions = {
-    center: { lat: 37.3318907, lng: -122.0318303 },
+    center: { lat: 32.3318907, lng: -122.0318303 },
     zoom: 12,
     disableDefaultUI: false
 };
@@ -136,8 +142,13 @@ myApp.onPageInit('settings', function (page) {
                     values[el.name] = el.checked;
                 }
                 else {
-                    if(!isNaN(parseInt(el.value))) {
-                        values[el.name] = parseInt(el.value);
+                    let int_or_float_val = parseInt(el.value);
+                 let data_type = $$(el).data('data_type');
+                     if (data_type === 'float'){
+                         int_or_float_val = parseFloat(el.value);
+                     }
+                    if(!isNaN(int_or_float_val)) {
+                        values[el.name] = int_or_float_val;
                     }
                     else {
                         values[el.name] = el.value;

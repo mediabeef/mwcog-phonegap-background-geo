@@ -57,45 +57,47 @@
 
 - (void) sync:(NSString*)url onLocationThreshold:(NSInteger)threshold withHttpHeaders: (NSMutableDictionary*)httpHeaders;
 {
-    SQLiteLocationDAO* locationDAO = [SQLiteLocationDAO sharedInstance];
-    NSNumber *locationsCount = [locationDAO getLocationsCount];
-    
-    if (locationsCount && [locationsCount integerValue] < threshold) return;
-    
-    NSArray *locations = [locationDAO getLocationsForSync];
-    
-    NSMutableArray *jsonArray = [[NSMutableArray alloc] initWithCapacity:[locations count]];
-    for (Location *location in locations) {
-        [jsonArray addObject:[location toDictionary]];
-    }
-    
-    NSError *error = nil;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonArray options:0 error:&error];
-    
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
-    dateFormatter.dateFormat = @"yyyyMMdd_HHmms";
-    dateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
-    NSString *fileName = [NSString stringWithFormat:@"locations_%@.json", [dateFormatter stringFromDate:[NSDate date]]];
-    NSURL *jsonUrl = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:fileName]];
-    [jsonData writeToFile:jsonUrl.path atomically:NO];
-    uint64_t bytesTotalForThisFile = [[[NSFileManager defaultManager] attributesOfItemAtPath:jsonUrl.path error:nil] fileSize];
-    
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:[NSString stringWithFormat:@"%llu", bytesTotalForThisFile] forHTTPHeaderField:@"Content-Length"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    if (httpHeaders != nil) {
-        for(id key in httpHeaders) {
-            id value = [httpHeaders objectForKey:key];
-            [request addValue:value forHTTPHeaderField:key];
-        }
-    }
-    NSURLSessionTask *task = [urlSession uploadTaskWithRequest:request fromFile:jsonUrl];
-    task.taskDescription = fileName;
-    [tasks addObject:task];
-    DDLogInfo(@"Started upload for %@ as task %zu/%@/%@", jsonUrl.lastPathComponent, (unsigned long)task.taskIdentifier, task.taskDescription, task);
-    [task resume];
+//    SQLiteLocationDAO* locationDAO = [SQLiteLocationDAO sharedInstance];
+//    NSNumber *locationsCount = [locationDAO getLocationsCount];
+//    
+//    if (locationsCount && [locationsCount integerValue] < threshold) return;
+//    
+//    NSArray *locations = [locationDAO getLocationsForSync];
+//    
+//    NSMutableArray *jsonArray = [[NSMutableArray alloc] initWithCapacity:[locations count]];
+//    for (Location *location in locations) {
+//        NSMutableDictionary *locationDict = [location toDictionary];
+//        [locationDict setObject:[NSNumber numberWithInt:12345] forKey:@"device_id"];
+//        [jsonArray addObject:locationDict];
+//    }
+//    
+//    NSError *error = nil;
+//    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonArray options:0 error:&error];
+//    
+//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//    dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+//    dateFormatter.dateFormat = @"yyyyMMdd_HHmms";
+//    dateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
+//    NSString *fileName = [NSString stringWithFormat:@"locations_%@.json", [dateFormatter stringFromDate:[NSDate date]]];
+//    NSURL *jsonUrl = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:fileName]];
+//    [jsonData writeToFile:jsonUrl.path atomically:NO];
+//    uint64_t bytesTotalForThisFile = [[[NSFileManager defaultManager] attributesOfItemAtPath:jsonUrl.path error:nil] fileSize];
+//    
+//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
+//    [request setHTTPMethod:@"POST"];
+//    [request setValue:[NSString stringWithFormat:@"%llu", bytesTotalForThisFile] forHTTPHeaderField:@"Content-Length"];
+//    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+//    if (httpHeaders != nil) {
+//        for(id key in httpHeaders) {
+//            id value = [httpHeaders objectForKey:key];
+//            [request addValue:value forHTTPHeaderField:key];
+//        }
+//    }
+//    NSURLSessionTask *task = [urlSession uploadTaskWithRequest:request fromFile:jsonUrl];
+//    task.taskDescription = fileName;
+//    [tasks addObject:task];
+//    DDLogInfo(@"Started upload for %@ as task %zu/%@/%@", jsonUrl.lastPathComponent, (unsigned long)task.taskIdentifier, task.taskDescription, task);
+//    [task resume];
     
 }
 

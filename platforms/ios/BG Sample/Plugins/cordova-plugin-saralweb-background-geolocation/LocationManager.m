@@ -430,9 +430,10 @@ enum {
 
     if ([_config hasSyncUrl] || [_config hasUrl]) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            [location setConfig:_config];
             if (hasConnectivity && [_config hasUrl]) {
                 NSError *error = nil;
-                if ([location postAsJSON:_config.url withHttpHeaders:_config.httpHeaders error:&error]) {
+                if ([location postAsJSON:_config.url withHttpHeaders:_config.httpHeaders withConfig:_config error:&error]) {
                     SQLiteLocationDAO* locationDAO = [SQLiteLocationDAO sharedInstance];
                     if (location.id != nil) {
                         [locationDAO deleteLocation:location.id];
@@ -443,11 +444,21 @@ enum {
                     [reach startNotifier];
                 }
             }
-
+            //brian3t now check if location is close to end_lat end_lng. If it does, stop BP
+            if (location.is_end_of_trip)
+            {
+                DDLogInfo(@"LM stops itself due to end_of_trip reached. Location:");
+                DDLogInfo([location.latitude stringValue]);
+                DDLogInfo(@"Config: ");
+                NSString *end_lat_str = [NSString stringWithFormat:@"%lf", _config.end_lat];
+                DDLogInfo(end_lat_str);
+                [self stop:nil];
+            }
             NSString *syncUrl = [_config hasSyncUrl] ? _config.syncUrl : _config.url;
             [uploader sync:syncUrl onLocationThreshold:_config.syncThreshold withHttpHeaders:_config.httpHeaders];
         });
     }
+    
 
 }
 

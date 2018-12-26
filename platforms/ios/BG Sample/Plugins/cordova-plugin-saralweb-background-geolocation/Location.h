@@ -9,6 +9,7 @@
 #define Location_h
 
 #import <CoreLocation/CoreLocation.h>
+#import "Config.h"
 
 @interface Location : NSObject <NSCopying>
 
@@ -25,6 +26,8 @@
 @property (nonatomic, retain) NSNumber *serviceProvider;
 @property (nonatomic, retain) NSString *type;
 @property (nonatomic) BOOL isValid;
+@property (nonatomic, retain) Config *config;
+@property (nonatomic) BOOL is_end_of_trip;
 
 + (instancetype) fromCLLocation:(CLLocation*)location;
 + (NSTimeInterval) locationAge:(CLLocation*)location;
@@ -32,6 +35,8 @@
 + (NSData *)sendSynchronousRequest:(NSURLRequest *)request
                  returningResponse:(__autoreleasing NSURLResponse **)responsePtr
                              error:(__autoreleasing NSError **)errorPtr;
+
+- (void) setConfig:(Config*)input_config;
 - (NSTimeInterval) locationAge;
 - (NSMutableDictionary*) toDictionary;
 - (NSMutableDictionary*) toDictionaryWithId;
@@ -41,7 +46,7 @@
 - (double) distanceFromLocation:(Location*)location;
 - (BOOL) isBetterLocation:(Location*)location;
 - (BOOL) isBeyond:(Location*)location radius:(NSInteger)radius;
-- (BOOL) postAsJSON:(NSString*)url withHttpHeaders:(NSMutableDictionary*)httpHeaders error:(NSError * __autoreleasing *)outError;
+- (BOOL) postAsJSON:(NSString*)url withHttpHeaders:(NSMutableDictionary*)httpHeaders withConfig:(NSObject*)config error:(NSError * __autoreleasing *)outError;
 - (id) copyWithZone: (NSZone *)zone;
 
 @end

@@ -25,6 +25,7 @@
 		6AFF5BF91D6E424B00AB3073 /* CDVLaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6AFF5BF81D6E424B00AB3073 /* CDVLaunchScreen.storyboard */; };
 		740920450CC546CBA88825CD /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D661D489894BB493B4B11E /* AVFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		7E00489D122C4FACA7036F6A /* Config.m in Sources */ = {isa = PBXBuildFile; fileRef = 56FEA0750D994EE6BDDA1297 /* Config.m */; };
+		87EDC04821CE9B5600284C9D /* brian3tnote.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87EDC04721CE9B5600284C9D /* brian3tnote.txt */; };
 		8EEF82CAC77B4C998E6F0D25 /* FMDB.m in Sources */ = {isa = PBXBuildFile; fileRef = 7446559C5A644D1CAD5CAF7A /* FMDB.m */; };
 		B68BFC09021644929B3C764E /* LocationUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD857BE79EE417586191D79 /* LocationUploader.m */; };
 		B718682D0FF241BCA2C6FD72 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C927F24C1F49B4B8B3C7A4 /* libsqlite3.dylib */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -99,6 +100,7 @@
 		7A1CD85C866449178726034A /* SQLiteOpenHelper.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = SQLiteOpenHelper.m; path = "cordova-plugin-saralweb-background-geolocation/SQLiteOpenHelper.m"; sourceTree = "<group>"; };
 		7D13DD2B53A0440EB958469E /* SQLiteLocationDAO.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = SQLiteLocationDAO.h; path = "cordova-plugin-saralweb-background-geolocation/SQLiteLocationDAO.h"; sourceTree = "<group>"; };
 		82D8667C2CFA479DB864D9F1 /* CDVBackgroundGeolocation.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVBackgroundGeolocation.m; path = "cordova-plugin-saralweb-background-geolocation/CDVBackgroundGeolocation.m"; sourceTree = "<group>"; };
+		87EDC04721CE9B5600284C9D /* brian3tnote.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = brian3tnote.txt; sourceTree = "<group>"; };
 		8C8FB9BC259746669F7FC318 /* Reachability.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = "cordova-plugin-saralweb-background-geolocation/Reachability.h"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* BG Sample-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "BG Sample-Info.plist"; path = "BG Sample/BG Sample-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = SOURCE_ROOT; };
 		8E6A149D2FE44C50BED14C94 /* Reachability.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = "cordova-plugin-saralweb-background-geolocation/Reachability.m"; sourceTree = "<group>"; };
@@ -265,6 +267,7 @@
 				4BEB2EFC346C4380AF866C46 /* SQLiteHelper.h */,
 				7D13DD2B53A0440EB958469E /* SQLiteLocationDAO.h */,
 				79B132BC416144948B6A06EB /* SQLiteOpenHelper.h */,
+				87EDC04721CE9B5600284C9D /* brian3tnote.txt */,
 			);
 			name = Plugins;
 			path = "BG Sample/Plugins";
@@ -360,6 +363,7 @@
 			files = (
 				302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */,
 				0207DA581B56EA530066E2B4 /* Images.xcassets in Resources */,
+				87EDC04821CE9B5600284C9D /* brian3tnote.txt in Resources */,
 				6AFF5BF91D6E424B00AB3073 /* CDVLaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

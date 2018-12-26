@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Location.h"
+#define MIN_LATLNG_THRESHOLD    0.01 //threshold to determine if destination is reached
 
 enum {
     TWO_MINUTES = 120,
@@ -15,7 +16,7 @@ enum {
 
 @implementation Location
 
-@synthesize id, time, accuracy, altitudeAccuracy, speed, heading, altitude, latitude, longitude, provider, serviceProvider, type, isValid;
+@synthesize id, time, accuracy, altitudeAccuracy, speed, heading, altitude, latitude, longitude, provider, serviceProvider, type, isValid, config, is_end_of_trip;
 
 + (instancetype) fromCLLocation:(CLLocation*)location;
 {
@@ -107,6 +108,28 @@ enum {
     if (serviceProvider != nil) [dict setObject:serviceProvider forKey:@"service_provider"];
     if (type != nil) [dict setObject:type forKey:@"location_type"];
     
+    return dict;
+}
+
+- (NSMutableDictionary*) toDictionaryWithExtras
+{
+    NSMutableDictionary *dict = [self toDictionary];
+    NSInteger commuter_id = config.commuter_id;
+    NSString *trip_id = config.trip_id;
+    double start_lat = config.start_lat;
+    double start_lng = config.start_lng;
+    double end_lat = config.end_lat;
+    double end_lng = config.end_lng;
+    NSString *is_end_of_trip_str = @"";
+    
+    [dict setObject:[NSNumber numberWithLong:commuter_id] forKey:@"commuter_id"];
+    [dict setObject:trip_id forKey:@"trip_id"];
+    [dict setObject:[NSDecimalNumber numberWithDouble:start_lat] forKey:@"start_lat"];
+    [dict setObject:[NSDecimalNumber numberWithDouble:start_lng] forKey:@"start_lng"];
+    [dict setObject:[NSDecimalNumber numberWithDouble:end_lat] forKey:@"end_lat"];
+    [dict setObject:[NSDecimalNumber numberWithDouble:end_lng] forKey:@"end_lng"];
+    [dict setObject:[NSNumber numberWithBool:is_end_of_trip] forKey:@"is_end_of_trip"];
+
     return dict;
 }
 
@@ -204,9 +227,19 @@ enum {
     return [NSString stringWithFormat:@"Location: id=%ld time=%ld lat=%@ lon=%@ accu=%@ aaccu=%@ speed=%@ bear=%@ alt=%@ type=%@", (long)id, (long)time, latitude, longitude, accuracy, altitudeAccuracy, speed, heading, altitude, type];
 }
 
-- (BOOL) postAsJSON:(NSString*)url withHttpHeaders:(NSMutableDictionary*)httpHeaders error:(NSError * __autoreleasing *)outError
+/* Set config. Called from location manager only.
+ With config ready, we can determine is_end_of_trip
+ */
+- (void) setConfig:(Config *)input_config{
+    config = input_config;
+    double distance_to_dest = ([latitude floatValue] - config.end_lat) * ([longitude floatValue] - config.end_lng);
+    is_end_of_trip = (distance_to_dest < MIN_LATLNG_THRESHOLD);
+    self.is_end_of_trip = is_end_of_trip;
+}
+
+- (BOOL) postAsJSON:(NSString*)url withHttpHeaders:(NSMutableDictionary*)httpHeaders withConfig:(NSObject*)config error:(NSError * __autoreleasing *)outError
 {
-    NSArray *locations = [[NSArray alloc] initWithObjects:[self toDictionary], nil];
+    NSArray *locations = [[NSArray alloc] initWithObjects:[self toDictionaryWithExtras], nil];
     //    NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData: data options: NSJSONReadingMutableContainers error: &e];
     NSData *data = [NSJSONSerialization dataWithJSONObject:locations options:0 error:outError];
     if (!data) {

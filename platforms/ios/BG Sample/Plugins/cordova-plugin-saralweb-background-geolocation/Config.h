@@ -20,6 +20,12 @@
 @property BOOL stopOnTerminate;
 @property NSString* url;
 @property NSString* syncUrl;
+@property NSInteger commuter_id;
+@property NSString* trip_id;
+@property double start_lat;
+@property double start_lng;
+@property double end_lat;
+@property double end_lng;
 @property NSInteger syncThreshold;
 @property NSMutableDictionary* httpHeaders;
 @property BOOL saveBatteryOnBackground;
