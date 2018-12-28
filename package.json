@@ -1,30 +1,67 @@
 {
-  "name": "com.saralweb.bgsampleapp",
-  "version": "1.0.0",
-  "displayName": "BG Sample",
+  "_from": "cordova-plugin-mediabeef-background-geolocation@^2.4.0",
+  "_id": "cordova-plugin-mediabeef-background-geolocation@2.4.6",
+  "_inBundle": false,
+  "_integrity": "sha512-Z/mG4zOA3aa7feCIaNfMptKDtJGwyaSgjszhRd9Fr1e+r9xSv+hIs1iaFKtQmaT/rug37rxNPNlcvJd1xkkFEg==",
+  "_location": "/cordova-plugin-mediabeef-background-geolocation",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "cordova-plugin-mediabeef-background-geolocation@^2.4.0",
+    "name": "cordova-plugin-mediabeef-background-geolocation",
+    "escapedName": "cordova-plugin-mediabeef-background-geolocation",
+    "rawSpec": "^2.4.0",
+    "saveSpec": null,
+    "fetchSpec": "^2.4.0"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-mediabeef-background-geolocation/-/cordova-plugin-mediabeef-background-geolocation-2.4.6.tgz",
+  "_shasum": "29629d30af18046da6a52e761ec3d26018544a57",
+  "_spec": "cordova-plugin-mediabeef-background-geolocation@^2.4.0",
+  "_where": "/var/www/bkup/saral_sample",
+  "author": {
+    "name": "mediabeef"
+  },
+  "bugs": {
+    "url": "https://github.com/mediabeef/cordova-plugin-background-geolocation/issues"
+  },
+  "bundleDependencies": false,
   "cordova": {
+    "id": "cordova-plugin-mediabeef-background-geolocation",
     "platforms": [
       "android",
       "ios"
-    ],
-    "plugins": {
-      "cordova-plugin-whitelist": {},
-      "cordova-plugin-saralweb-background-geolocation": {
-        "LOCATION_ALWAYS_USAGE_DESCRIPTION": "Tracking permission is required for app to work",
-        "LOCATION_WHEN_IN_USE_USAGE_DESCRIPTION": "Tracking permission is required for app to work",
-        "LOCATION_ALWAYS_AND_WHEN_IN_USE_USAGE_DESCRIPTION": "Tracking permission is required for app to work"
-      },
-      "cordova-android-support-gradle-release": {
-        "ANDROID_SUPPORT_VERSION": "27.+"
-      }
-    }
+    ]
   },
-  "dependencies": {
-    "android-versions": "^1.4.0",
-    "cordova-android": "~6.3.0",
-    "cordova-android-support-gradle-release": "^2.0.1",
-    "cordova-ios": "^4.5.5",
-    "cordova-plugin-saralweb-background-geolocation": "^2.4.0",
-    "cordova-plugin-whitelist": "1"
-  }
+  "deprecated": false,
+  "description": "Cordova Background Geolocation Plugin Mb",
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ],
+  "homepage": "https://github.com/mediabeef/cordova-plugin-background-geolocation#readme",
+  "keywords": [
+    "gps",
+    "location",
+    "geolocation",
+    "background",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios",
+    "cordova",
+    "phonegap"
+  ],
+  "license": "Apache-2.0",
+  "name": "cordova-plugin-mediabeef-background-geolocation",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mediabeef/cordova-plugin-background-geolocation.git"
+  },
+  "version": "2.4.5"
 }
