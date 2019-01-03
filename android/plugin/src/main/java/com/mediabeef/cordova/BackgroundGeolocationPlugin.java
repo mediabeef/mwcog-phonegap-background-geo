@@ -116,7 +116,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
                         Bundle bundle = msg.getData();
                         bundle.setClassLoader(LocationService.class.getClassLoader());
                         JSONObject location = ((BackgroundLocation) bundle.getParcelable("location")).toJSONObject();
-                        location.put('device_id', 'brian3t');
+                        location.put("device_id", "brian3t");
                         PluginResult result = new PluginResult(PluginResult.Status.OK, location);
                         result.setKeepCallback(true);
                         callbackContext.sendPluginResult(result);
