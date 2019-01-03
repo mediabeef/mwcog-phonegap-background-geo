@@ -171,7 +171,6 @@ public class BackgroundLocation implements Parcelable {
         dest.writeInt(hasRadius ? 1 : 0);
         dest.writeInt(isFromMockProvider ? 1 : 0);
         dest.writeInt(isValid ? 1 : 0);
-        dest.writeString(deviceId);
         dest.writeBundle(extras);
     }
 
