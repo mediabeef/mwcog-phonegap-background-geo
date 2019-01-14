@@ -12,11 +12,11 @@ On Android you can choose from two location location providers:
 * **ANDROID_DISTANCE_FILTER_PROVIDER**
 * **ANDROID_ACTIVITY_PROVIDER**
 
-See [Which provider should I use?](https://github.com/mediabeef/cordova-plugin-background-geolocation/blob/master/PROVIDERS.md) for more information about providers.
+See [Which provider should I use?](https://github.com/mediabeef/mwcog-phonegap-background-geo/blob/master/PROVIDERS.md) for more information about providers.
 
 ## Sample Application
 
-Checkout sample app repository [cordova-plugin-background-geolocation-sample](https://github.com/mediabeef/cordova-plugin-background-geolocation-sample).
+Checkout sample app repository [cordova-plugin-background-geolocation-sample](https://github.com/mediabeef/mediabeef-testapp).
 
 ## Semantic Versioning
 This plugin is following semantic versioning as defined http://semver.org
