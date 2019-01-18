@@ -142,6 +142,9 @@ enum {
     return coordinate;
 }
 
+/**
+ * Todob use this for endpoint detection
+ */
 - (double) distanceFromLocation:(Location*)location
 {
     const float EarthRadius = 6378137.0f;
