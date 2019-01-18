@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <math.h>
 #import "Location.h"
 #define MIN_LATLNG_THRESHOLD    0.000005 
         // mhemry: estimated .2 miles or 1000 feet (slightly larger than a city block) 
