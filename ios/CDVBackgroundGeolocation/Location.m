@@ -7,7 +7,8 @@
 
 #import <Foundation/Foundation.h>
 #import "Location.h"
-#define MIN_LATLNG_THRESHOLD    0.0001 //threshold to determine if destination is reached
+#define MIN_LATLNG_THRESHOLD    0.00001 //threshold to determine if destination is reached
+// MIN_LATLNG_THRESHOLD = 0.0001 == around 5000 feet, attempting to adjust to 500 feet
 
 enum {
     TWO_MINUTES = 120,
