@@ -6,10 +6,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <math.h>
 #import "Location.h"
-#define MIN_LATLNG_THRESHOLD    0.000005 
-        // mhemry: estimated .2 miles or 1000 feet (slightly larger than a city block) 
+#define MIN_LATLNG_THRESHOLD   0.000005
+        // mhemry: 0.000005 => estimated .2 miles or 1000 feet (slightly larger than a city block) 
         // threshold to determine if destination is reached
         // orig value 0.0001 == around 5000 feet, attempting to adjust to 500 feet
 
@@ -239,7 +238,7 @@ enum {
  */
 - (void) setConfig:(Config *)input_config{
     config = input_config;
-    double distance_to_dest = fabs([latitude floatValue] - config.end_lat) * ([longitude floatValue] - config.end_lng);
+    double distance_to_dest = fabs(([latitude floatValue] - config.end_lat) * ([longitude floatValue] - config.end_lng));
     is_end_of_trip = (distance_to_dest < MIN_LATLNG_THRESHOLD);
     self.is_end_of_trip = is_end_of_trip;
 }
