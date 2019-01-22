@@ -17,6 +17,7 @@
 #import "BackgroundTaskManager.h"
 #import "Reachability.h"
 #import "Logging.h"
+@import UserNotifications;
 
 // Debug sounds for bg-geolocation life-cycle events.
 // http://iphonedevwiki.net/index.php/AudioServices
@@ -158,11 +159,9 @@ enum {
     locationManager.desiredAccuracy = [_config decodeDesiredAccuracy];
 
     // ios 8 requires permissions to send local-notifications
-    if (_config.isDebugging) {
-        UIApplication *app = [UIApplication sharedApplication];
-        if ([app respondsToSelector:@selector(registerUserNotificationSettings:)]) {
-            [app registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
-        }
+    UIApplication *app = [UIApplication sharedApplication];
+    if ([app respondsToSelector:@selector(registerUserNotificationSettings:)]) {
+        [app registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
     }
 
     if ([config hasSyncUrl] && uploader == nil) {
@@ -452,6 +451,8 @@ enum {
                 DDLogInfo(@"Config: ");
                 NSString *end_lat_str = [NSString stringWithFormat:@"%lf", _config.end_lat];
                 DDLogInfo(end_lat_str);
+
+                [self notify:@"Congratulations! Your trip has been verified!'"];
                 [self stop:nil];
             }
             NSString *syncUrl = [_config hasSyncUrl] ? _config.syncUrl : _config.url;
@@ -808,9 +809,38 @@ enum {
 
 - (void) notify:(NSString*)message
 {
-    localNotification.fireDate = [NSDate date];
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    UNAuthorizationOptions options = UNAuthorizationOptionAlert;
+    [center requestAuthorizationWithOptions:options
+                          completionHandler:^(BOOL granted, NSError * _Nullable error) {
+                              if (!granted) {
+                                  NSLog(@"Something went wrong");
+                              }
+                          }];
+    [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
+        if (settings.authorizationStatus != UNAuthorizationStatusAuthorized) {
+            // Notifications not allowed
+        }
+    }];
+    UNMutableNotificationContent *content = [UNMutableNotificationContent new];
+    content.title = @"Commuter Connections";
+    content.body = message;
+
+    UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:1
+                                                                                                    repeats:NO];
+    NSString *identifier = @"mwcog_bg";
+    UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:identifier
+                                                                          content:content trigger:trigger];
+
+    [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
+        if (error != nil) {
+            NSLog(@"Something went wrong: %@",error);
+        }
+    }];
+    /*Old code < ios 10
+     * localNotification.fireDate = [NSDate date];
     localNotification.alertBody = message;
-    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];*/
 }
 
 /**@

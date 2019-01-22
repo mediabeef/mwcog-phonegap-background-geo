@@ -123,7 +123,6 @@ enum {
     double start_lng = config.start_lng;
     double end_lat = config.end_lat;
     double end_lng = config.end_lng;
-    NSString *is_end_of_trip_str = @"";
 
     [dict setObject:[NSNumber numberWithLong:commuter_id] forKey:@"commuter_id"];
     [dict setObject:trip_id forKey:@"trip_id"];
