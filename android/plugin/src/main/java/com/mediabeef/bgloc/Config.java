@@ -55,7 +55,12 @@ public class Config implements Parcelable
     private String url;
     private String syncUrl;
 
-    private Integer commuter_id = null;//commuter_id sent from mwcog app
+    private Integer commuter_id = null;//sent from mwcog app
+    private String trip_id = "";
+    private double start_lat = -1;
+    private double start_lng = -1;
+    private double end_lat = -1;
+    private double end_lng = -1;
     private Integer syncThreshold = 100;
     private HashMap httpHeaders = new HashMap<String, String>();
     private Integer maxLocations = 10000;
@@ -89,6 +94,12 @@ public class Config implements Parcelable
         out.writeString(getUrl());
         out.writeString(getSyncUrl());
         out.writeInt(getCommuter_id());
+        out.writeString(getTrip_id());
+        out.writeDouble(getStart_lat());
+        out.writeDouble(getStart_lng());
+        out.writeDouble(getEnd_lat());
+        out.writeDouble(getEnd_lng());
+
         out.writeInt(getSyncThreshold());
         out.writeInt(getMaxLocations());
         Bundle bundle = new Bundle();
@@ -132,6 +143,11 @@ public class Config implements Parcelable
         setUrl(in.readString());
         setSyncUrl(in.readString());
         setCommuter_id(in.readInt());
+        setTrip_id(in.readString());
+        setStart_lat(in.readDouble());
+        setStart_lng(in.readDouble());
+        setEnd_lat(in.readDouble());
+        setEnd_lng(in.readDouble());
         setSyncThreshold(in.readInt());
         setMaxLocations(in.readInt());
         Bundle bundle = in.readBundle();
@@ -302,9 +318,58 @@ public class Config implements Parcelable
     public Integer getCommuter_id() {
         return commuter_id == null ? -1 : commuter_id;
     }
-
     public void setCommuter_id(Integer commuter_id) {
         this.commuter_id = commuter_id;
+    }
+
+    public Boolean hasTrip_id() {
+        return this.trip_id != null;
+    }
+    public String getTrip_id() {
+        return trip_id;
+    }
+    public void setTrip_id(String trip_id) {
+        this.trip_id = trip_id;
+    }
+
+    public Boolean hasStart_lat() {
+        return this.start_lat != -1;
+    }
+    public double getStart_lat() {
+        return start_lat;
+    }
+    public void setStart_lat(double start_lat) {
+        this.start_lat = start_lat;
+    }
+
+    public Boolean hasStart_lng() {
+        return this.start_lng != -1;
+    }
+    public double getStart_lng() {
+        return start_lng;
+    }
+    public void setStart_lng(double start_lng) {
+        this.start_lng = start_lng;
+    }
+
+    public Boolean hasEnd_lat() {
+        return this.end_lat != -1;
+    }
+    public double getEnd_lat() {
+        return end_lat;
+    }
+    public void setEnd_lat(double end_lat) {
+        this.end_lat = end_lat;
+    }
+
+    public Boolean hasEnd_lng() {
+        return this.end_lng != -1;
+    }
+    public double getEnd_lng() {
+        return end_lng;
+    }
+    public void setEnd_lng(double end_lng) {
+        this.end_lng = end_lng;
     }
 
     public Boolean hasSyncUrl() {
@@ -442,6 +507,12 @@ public class Config implements Parcelable
         json.put("url", getUrl());
         json.put("syncUrl", getSyncUrl());
         json.put("commuter_id", getCommuter_id());
+        json.put("trip_id", getTrip_id());
+        json.put("start_lat", getStart_lat());
+        json.put("start_lng", getStart_lng());
+        json.put("end_lat", getEnd_lat());
+        json.put("end_lng", getEnd_lng());
+
         json.put("syncThreshold", getSyncThreshold());
         json.put("httpHeaders", new JSONObject(getHttpHeaders()));
         json.put("maxLocations", getMaxLocations());

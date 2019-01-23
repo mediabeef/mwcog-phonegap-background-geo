@@ -14,6 +14,10 @@ import android.provider.Settings.Secure;
 
 import com.mediabeef.bgloc.Config;
 
+/**
+ * BackgroundLocation
+ * similar to iOS Location.h
+ */
 public class BackgroundLocation implements Parcelable {
     private ConfigurationDAO configDAO;
     private Long locationId = null;
@@ -39,6 +43,13 @@ public class BackgroundLocation implements Parcelable {
     private String mwc_username = null;
     private Bundle extras = null;
     private org.slf4j.Logger log;
+    private Config config;
+    public boolean is_end_of_trip;
+
+    private static final double MIN_LATLNG_THRESHOLD = 0.000005;
+    // mhemry: 0.000005 => estimated .2 miles or 1000 feet (slightly larger than a city block)
+    // threshold to determine if destination is reached
+    // orig value 0.0001 == around 5000 feet, attempting to adjust to 500 feet
 
     private static final long TWO_MINUTES_IN_NANOS = 1000000000L * 60 * 2;
 
@@ -67,6 +78,12 @@ public class BackgroundLocation implements Parcelable {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             isFromMockProvider = location.isFromMockProvider();
         }
+    }
+
+    public void setConfig(Config config) {
+        this.config = config;
+        double distance_to_dest = (latitude - config.getEnd_lat()) * (longitude - config.getEnd_lng());
+        this.is_end_of_trip = (distance_to_dest < MIN_LATLNG_THRESHOLD);
     }
 
     /**
@@ -713,13 +730,6 @@ public class BackgroundLocation implements Parcelable {
      * @throws JSONException fail to put json??
      */
     public JSONObject toJSONObject() throws JSONException {
-        /*Config config = null;
-        try {
-            config = configDAO.retrieveConfiguration();
-        } catch (JSONException e) {
-            log.error("Error retrieving config: {}", e.getMessage());
-        }*/
-
         JSONObject json = new JSONObject();
         json.put("provider", provider);
         json.put("time", time);
@@ -731,7 +741,25 @@ public class BackgroundLocation implements Parcelable {
         if (hasBearing) json.put("bearing", bearing);
         if (hasRadius) json.put("radius", radius);
         json.put("locationProvider", locationProvider);
-
+        if (config.hasCommuter_id()){
+            json.put("commuter_id", config.getCommuter_id());
+        }
+        if (config.hasTrip_id()){
+            json.put("trip_id", config.getTrip_id());
+        }
+        if (config.hasStart_lat()){
+            json.put("start_lat", config.getStart_lat());
+        }
+        if (config.hasStart_lng()){
+            json.put("start_lng", config.getStart_lng());
+        }
+        if (config.hasEnd_lat()){
+            json.put("end_lat", config.getEnd_lat());
+        }
+        if (config.hasCommuter_id()){
+            json.put("end_lng", config.getEnd_lng());
+        }
+        json.put("is_end_of_trip", is_end_of_trip);
         return json;
   	}
 

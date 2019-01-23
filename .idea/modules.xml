@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/mediabeef_testapp.iml" filepath="$PROJECT_DIR$/.idea/mediabeef_testapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/mwcbggeo_cordova.iml" filepath="$PROJECT_DIR$/.idea/mwcbggeo_cordova.iml" />
     </modules>
   </component>
 </project>

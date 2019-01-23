@@ -368,6 +368,7 @@ public class LocationService extends Service {
 
     /**
      * Handle location from location location provider
+     * Brian3t similar to flushQueue()
      *
      * All locations updates are recorded in local db at all times.
      * Also location is also send to all messenger clients.
@@ -380,8 +381,7 @@ public class LocationService extends Service {
      * If only option.syncUrl is defined, locations are send only in single batch,
      * when number of locations reaches syncTreshold.
      *
-     * @param location
-     * @param PROVIDER_ID
+     * @param location The received location
      */
     public void handleLocation(BackgroundLocation location) {
         log.debug("New location {}", location.toString());
@@ -399,6 +399,7 @@ public class LocationService extends Service {
         }
 
         if (hasConnectivity && config.hasUrl()) {
+            location.setConfig(config);
             postLocationAsync(location);
         }
 
@@ -408,6 +409,15 @@ public class LocationService extends Service {
         msg.setData(bundle);
 
         sendClientMessage(msg);
+        //brian3t now check if location is close to end_lat end_lng. If it does, stop BP
+        if (location.is_end_of_trip)
+        {
+            log.info("LM stops itself due to end_of_trip reached. Location:");
+            log.info("latitude: ", location.getLatitude());
+            log.info("config: ", config.getEnd_lat());
+//            this.sendClientMessage("Congratulations! Your trip has been verified!");//todob send a local notification here
+            this.stopSelf();
+        }
     }
 
     public void handleStationary(BackgroundLocation location) {
@@ -494,6 +504,10 @@ public class LocationService extends Service {
         this.config = config;
     }
 
+    /**
+     * PostLocationTask
+     * brian3t this is similar to PostAsJSON()
+     */
     private class PostLocationTask extends AsyncTask<BackgroundLocation, Integer, Boolean> {
 
         @Override
