@@ -7,7 +7,8 @@
 
 #import <Foundation/Foundation.h>
 #import "Location.h"
-#define MIN_LATLNG_THRESHOLD   0.000005
+#define MIN_LATLNG_THRESHOLD   0.0000035
+        // mhemry: 0.0000035 => NEW estimated .2 miles or 1000 feet (slightly larger than a city block) 
         // mhemry: 0.000005 => estimated .2 miles or 1000 feet (slightly larger than a city block) 
         // threshold to determine if destination is reached
         // orig value 0.0001 == around 5000 feet, attempting to adjust to 500 feet
