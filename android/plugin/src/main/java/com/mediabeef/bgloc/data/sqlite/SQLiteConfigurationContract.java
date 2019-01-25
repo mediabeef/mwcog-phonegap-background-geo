@@ -32,6 +32,11 @@ public final class SQLiteConfigurationContract {
         public static final String COLUMN_NAME_SYNC_URL = "sync_url";
         public static final String COLUMN_NAME_SYNC_THRESHOLD = "sync_threshold";
         public static final String COLUMN_NAME_COMMUTER_ID = "commuter_id";
+        public static final String COLUMN_NAME_TRIP_ID = "trip_id";
+        public static final String COLUMN_NAME_START_LAT = "start_lat";
+        public static final String COLUMN_NAME_START_LNG = "start_lng";
+        public static final String COLUMN_NAME_END_LAT = "end_lat";
+        public static final String COLUMN_NAME_END_LNG = "end_lng";
         public static final String COLUMN_NAME_HEADERS = "http_headers";
         public static final String COLUMN_NAME_MAX_LOCATIONS = "max_locations";
     }

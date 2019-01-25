@@ -5,13 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-
-import org.json.JSONObject;
-import org.json.JSONException;
-
 import com.mediabeef.bgloc.Config;
 import com.mediabeef.bgloc.data.ConfigurationDAO;
 import com.mediabeef.bgloc.data.sqlite.SQLiteConfigurationContract.ConfigurationEntry;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class SQLiteConfigurationDAO implements ConfigurationDAO {
   private static final String TAG = SQLiteConfigurationDAO.class.getName();
@@ -53,6 +51,11 @@ public class SQLiteConfigurationDAO implements ConfigurationDAO {
       ConfigurationEntry.COLUMN_NAME_SYNC_URL,
       ConfigurationEntry.COLUMN_NAME_SYNC_THRESHOLD,
       ConfigurationEntry.COLUMN_NAME_COMMUTER_ID,
+      ConfigurationEntry.COLUMN_NAME_TRIP_ID,
+      ConfigurationEntry.COLUMN_NAME_START_LAT,
+      ConfigurationEntry.COLUMN_NAME_START_LNG,
+      ConfigurationEntry.COLUMN_NAME_END_LAT,
+      ConfigurationEntry.COLUMN_NAME_END_LNG,
       ConfigurationEntry.COLUMN_NAME_HEADERS,
       ConfigurationEntry.COLUMN_NAME_MAX_LOCATIONS
     };
@@ -122,6 +125,11 @@ public class SQLiteConfigurationDAO implements ConfigurationDAO {
     config.setActivitiesInterval(c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_ACTIVITIES_INTERVAL)));
     config.setUrl(c.getString(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_URL)));
     config.setSyncUrl(c.getString(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_SYNC_URL)));
+    config.setCommuter_id(c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_COMMUTER_ID)));
+    config.set(c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_COMMUTER_ID)));
+    config.setCommuter_id(c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_COMMUTER_ID)));
+    config.setCommuter_id(c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_COMMUTER_ID)));
+    config.setCommuter_id(c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_COMMUTER_ID)));
     config.setCommuter_id(c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_COMMUTER_ID)));
     config.setSyncThreshold(c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_SYNC_THRESHOLD)));
     config.setHttpHeaders(new JSONObject(c.getString(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_HEADERS))));

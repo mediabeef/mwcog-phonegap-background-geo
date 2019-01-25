@@ -2,10 +2,22 @@
 <module type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
+    <content url="file://$USER_HOME$/Android/Sdk/sources/android-26/android">
+      <sourceFolder url="file://$USER_HOME$/Android/Sdk/sources/android-26/android" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$">
-      <excludeFolder url="file://$MODULE_DIR$/platforms" />
+      <sourceFolder url="file://$MODULE_DIR$/android/plugin/src/main/java" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library" scope="PROVIDED">
+      <library name="android">
+        <CLASSES />
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$USER_HOME$/Android/Sdk/sources/android-26" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>

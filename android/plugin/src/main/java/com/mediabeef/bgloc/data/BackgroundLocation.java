@@ -1,18 +1,14 @@
 package com.mediabeef.bgloc.data;
 
-import android.content.Context;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.util.TimeUtils;
-
-import org.json.JSONObject;
-import org.json.JSONException;
-import android.provider.Settings.Secure;
-
 import com.mediabeef.bgloc.Config;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * BackgroundLocation
@@ -46,7 +42,8 @@ public class BackgroundLocation implements Parcelable {
     private Config config;
     public boolean is_end_of_trip;
 
-    private static final double MIN_LATLNG_THRESHOLD = 0.000005;
+    private static final double MIN_LATLNG_THRESHOLD = 0000035;
+    // mhemry: 0.0000035 => NEW estimated .2 miles or 1000 feet (slightly larger than a city block)
     // mhemry: 0.000005 => estimated .2 miles or 1000 feet (slightly larger than a city block)
     // threshold to determine if destination is reached
     // orig value 0.0001 == around 5000 feet, attempting to adjust to 500 feet
