@@ -126,11 +126,11 @@ public class SQLiteConfigurationDAO implements ConfigurationDAO {
     config.setUrl(c.getString(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_URL)));
     config.setSyncUrl(c.getString(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_SYNC_URL)));
     config.setCommuter_id(c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_COMMUTER_ID)));
-    config.set(c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_COMMUTER_ID)));
-    config.setCommuter_id(c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_COMMUTER_ID)));
-    config.setCommuter_id(c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_COMMUTER_ID)));
-    config.setCommuter_id(c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_COMMUTER_ID)));
-    config.setCommuter_id(c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_COMMUTER_ID)));
+    config.setTrip_id(c.getString(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_TRIP_ID)));
+    config.setStart_lat(c.getDouble(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_START_LAT)));
+    config.setStart_lng(c.getDouble(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_START_LNG)));
+    config.setEnd_lat(c.getDouble(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_END_LAT)));
+    config.setEnd_lng(c.getDouble(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_END_LNG)));
     config.setSyncThreshold(c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_SYNC_THRESHOLD)));
     config.setHttpHeaders(new JSONObject(c.getString(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_HEADERS))));
     config.setMaxLocations(c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_MAX_LOCATIONS)));
@@ -167,6 +167,11 @@ public class SQLiteConfigurationDAO implements ConfigurationDAO {
     values.put(ConfigurationEntry.COLUMN_NAME_URL, config.getUrl());
     values.put(ConfigurationEntry.COLUMN_NAME_SYNC_URL, config.getSyncUrl());
     values.put(ConfigurationEntry.COLUMN_NAME_COMMUTER_ID, config.getCommuter_id());
+    values.put(ConfigurationEntry.COLUMN_NAME_TRIP_ID, config.getTrip_id());
+    values.put(ConfigurationEntry.COLUMN_NAME_START_LAT, config.getStart_lat());
+    values.put(ConfigurationEntry.COLUMN_NAME_START_LNG, config.getStart_lng());
+    values.put(ConfigurationEntry.COLUMN_NAME_END_LAT, config.getEnd_lat());
+    values.put(ConfigurationEntry.COLUMN_NAME_END_LNG, config.getEnd_lng());
     values.put(ConfigurationEntry.COLUMN_NAME_SYNC_THRESHOLD, config.getSyncThreshold());
     values.put(ConfigurationEntry.COLUMN_NAME_HEADERS, new JSONObject(config.getHttpHeaders()).toString());
     values.put(ConfigurationEntry.COLUMN_NAME_MAX_LOCATIONS, config.getMaxLocations());

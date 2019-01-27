@@ -5,9 +5,8 @@ import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-
-import com.mediabeef.bgloc.data.sqlite.SQLiteLocationContract.LocationEntry;
 import com.mediabeef.bgloc.data.sqlite.SQLiteConfigurationContract.ConfigurationEntry;
+import com.mediabeef.bgloc.data.sqlite.SQLiteLocationContract.LocationEntry;
 
 import java.util.ArrayList;
 
@@ -67,6 +66,11 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
         ConfigurationEntry.COLUMN_NAME_SYNC_URL + TEXT_TYPE + COMMA_SEP +
         ConfigurationEntry.COLUMN_NAME_SYNC_THRESHOLD + INTEGER_TYPE + COMMA_SEP +
         ConfigurationEntry.COLUMN_NAME_COMMUTER_ID + INTEGER_TYPE + COMMA_SEP +
+                ConfigurationEntry.COLUMN_NAME_TRIP_ID + TEXT_TYPE + COMMA_SEP +
+                ConfigurationEntry.COLUMN_NAME_START_LAT + REAL_TYPE + COMMA_SEP +
+                ConfigurationEntry.COLUMN_NAME_START_LNG + REAL_TYPE + COMMA_SEP +
+                ConfigurationEntry.COLUMN_NAME_END_LAT + REAL_TYPE + COMMA_SEP +
+                ConfigurationEntry.COLUMN_NAME_END_LNG + REAL_TYPE + COMMA_SEP +
         ConfigurationEntry.COLUMN_NAME_HEADERS + TEXT_TYPE + COMMA_SEP +
         ConfigurationEntry.COLUMN_NAME_MAX_LOCATIONS + INTEGER_TYPE +
         " )";
