@@ -1,5 +1,5 @@
 /*
-According to apache license
+According to apache license 2
 
 This is fork of christocracy cordova-plugin-background-geolocation plugin
 https://github.com/christocracy/cordova-plugin-background-geolocation
@@ -9,16 +9,14 @@ This is a new class
 
 package com.mediabeef.bgloc;
 
-import android.location.Location;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.BroadcastReceiver;
+import android.location.Location;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
-
 import com.mediabeef.bgloc.data.BackgroundLocation;
 import com.mediabeef.cordova.JSONErrorFactory;
-
 import org.json.JSONObject;
 
 /**
