@@ -10,32 +10,18 @@ This is a new class
 package com.mediabeef.bgloc;
 
 import android.accounts.Account;
-import android.app.Notification;
-import android.app.Service;
+import android.app.*;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.database.SQLException;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.IBinder;
-import android.os.Looper;
-import android.os.Message;
-import android.os.Messenger;
-import android.os.RemoteException;
-import android.os.SystemClock;
+import android.os.*;
 import android.support.v4.app.NotificationCompat;
-
 import com.mediabeef.bgloc.data.BackgroundLocation;
 import com.mediabeef.bgloc.data.ConfigurationDAO;
 import com.mediabeef.bgloc.data.DAOFactory;
@@ -44,15 +30,15 @@ import com.mediabeef.bgloc.sync.AccountHelper;
 import com.mediabeef.bgloc.sync.AuthenticatorService;
 import com.mediabeef.bgloc.sync.SyncService;
 import com.mediabeef.logging.LoggerManager;
-
+import com.mediabeef.mwcog.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
-import java.util.List;
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class LocationService extends Service {
 
@@ -118,6 +104,11 @@ public class LocationService extends Service {
 
     private volatile HandlerThread handlerThread;
     private ServiceHandler serviceHandler;
+    int notifyID = 1;
+    String CHANNEL_ID = "mwcog_background_geolocation";
+    CharSequence channel_name = getString(R.string.channel_name);
+    int importance = NotificationManager.IMPORTANCE_LOW;
+    NotificationChannel mChannel = null;
 
     private class ServiceHandler extends Handler {
         public ServiceHandler(Looper looper) {
@@ -184,6 +175,7 @@ public class LocationService extends Service {
                     getStringResource(Config.ACCOUNT_TYPE_RESOURCE)));
 
         registerReceiver(connectivityChangeReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        mChannel = new NotificationChannel(CHANNEL_ID, channel_name, importance);//todob put a API level check here         
     }
 
     @Override
