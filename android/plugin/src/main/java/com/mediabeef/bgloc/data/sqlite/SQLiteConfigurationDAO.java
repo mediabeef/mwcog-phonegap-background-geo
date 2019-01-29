@@ -125,7 +125,7 @@ public class SQLiteConfigurationDAO implements ConfigurationDAO {
     config.setActivitiesInterval(c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_ACTIVITIES_INTERVAL)));
     config.setUrl(c.getString(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_URL)));
     config.setSyncUrl(c.getString(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_SYNC_URL)));
-    config.setCommuter_id(c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_COMMUTER_ID)));
+    config.setCommuter_id(c.getLong(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_COMMUTER_ID)));
     config.setTrip_id(c.getString(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_TRIP_ID)));
     config.setStart_lat(c.getDouble(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_START_LAT)));
     config.setStart_lng(c.getDouble(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_START_LNG)));

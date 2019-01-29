@@ -25,14 +25,10 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.widget.Toast;
-
-import com.mediabeef.bgloc.AbstractLocationProvider;
-import com.mediabeef.bgloc.LocationService;
 import com.mediabeef.logging.LoggerManager;
 
 import java.util.List;
 
-import static java.lang.Math.abs;
 import static java.lang.Math.pow;
 import static java.lang.Math.round;
 
@@ -293,7 +289,7 @@ public class DistanceFilterLocationProvider extends AbstractLocationProvider imp
                 return;
             }
         } else if (isMoving) {
-            if (config.isDebugging()) {
+            if (config.isDebugging()  && Config.IS_SOUND_ENABLED) {
                 startTone(Tone.BEEP);
             }
             // Only reset stationaryAlarm when accurate speed is detected, prevents spurious locations from resetting when stopped.

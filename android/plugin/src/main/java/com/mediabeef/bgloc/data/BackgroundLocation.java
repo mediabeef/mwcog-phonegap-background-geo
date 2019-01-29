@@ -40,9 +40,9 @@ public class BackgroundLocation implements Parcelable {
     private Bundle extras = null;
     private org.slf4j.Logger log;
     private Config config;
-    public boolean is_end_of_trip;
+    public boolean is_end_of_trip = false;
 
-    private static final double MIN_LATLNG_THRESHOLD = 0.0000035;
+    private static final double MIN_LATLNG_THRESHOLD = 150;//150 metre
     // mhemry: 0.0000035 => NEW estimated .2 miles or 1000 feet (slightly larger than a city block)
     // mhemry: 0.000005 => estimated .2 miles or 1000 feet (slightly larger than a city block)
     // threshold to determine if destination is reached
@@ -79,7 +79,9 @@ public class BackgroundLocation implements Parcelable {
 
     public void setConfig(Config config) {
         this.config = config;
-        double distance_to_dest = (latitude - config.getEnd_lat()) * (longitude - config.getEnd_lng());
+        Location end_location = config.getEnd_location();
+        if (end_location == null) return;
+        double distance_to_dest = this.getLocation().distanceTo(end_location);
         this.is_end_of_trip = (distance_to_dest < MIN_LATLNG_THRESHOLD);
     }
 

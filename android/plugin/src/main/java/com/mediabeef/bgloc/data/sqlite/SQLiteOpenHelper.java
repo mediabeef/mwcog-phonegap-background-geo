@@ -65,7 +65,7 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
         ConfigurationEntry.COLUMN_NAME_URL + TEXT_TYPE + COMMA_SEP +
         ConfigurationEntry.COLUMN_NAME_SYNC_URL + TEXT_TYPE + COMMA_SEP +
         ConfigurationEntry.COLUMN_NAME_SYNC_THRESHOLD + INTEGER_TYPE + COMMA_SEP +
-        ConfigurationEntry.COLUMN_NAME_COMMUTER_ID + INTEGER_TYPE + COMMA_SEP +
+        ConfigurationEntry.COLUMN_NAME_COMMUTER_ID + INTEGER_TYPE + "(8)" + COMMA_SEP +
                 ConfigurationEntry.COLUMN_NAME_TRIP_ID + TEXT_TYPE + COMMA_SEP +
                 ConfigurationEntry.COLUMN_NAME_START_LAT + REAL_TYPE + COMMA_SEP +
                 ConfigurationEntry.COLUMN_NAME_START_LNG + REAL_TYPE + COMMA_SEP +

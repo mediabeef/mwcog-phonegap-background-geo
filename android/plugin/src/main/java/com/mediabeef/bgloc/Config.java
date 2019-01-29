@@ -9,15 +9,12 @@ This is a new class
 
 package com.mediabeef.bgloc;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONException;
+import android.location.Location;
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Bundle;
-
-import org.json.JSONObject;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -55,7 +52,7 @@ public class Config implements Parcelable
     private String url;
     private String syncUrl;
 
-    private Integer commuter_id = null;//sent from mwcog app
+    private Long commuter_id = null;//sent from mwcog app
     private String trip_id = "";
     private double start_lat = -1;
     private double start_lng = -1;
@@ -64,6 +61,8 @@ public class Config implements Parcelable
     private Integer syncThreshold = 100;
     private HashMap httpHeaders = new HashMap<String, String>();
     private Integer maxLocations = 10000;
+    public static final Boolean IS_SOUND_ENABLED = false;
+    private Location end_location = null;
 
     public Config () {
     }
@@ -93,7 +92,7 @@ public class Config implements Parcelable
         out.writeValue(getStopOnStillActivity());
         out.writeString(getUrl());
         out.writeString(getSyncUrl());
-        out.writeInt(getCommuter_id());
+        out.writeLong(getCommuter_id());
         out.writeString(getTrip_id());
         out.writeDouble(getStart_lat());
         out.writeDouble(getStart_lng());
@@ -142,7 +141,7 @@ public class Config implements Parcelable
         setStopOnStillActivity((Boolean) in.readValue(null));
         setUrl(in.readString());
         setSyncUrl(in.readString());
-        setCommuter_id(in.readInt());
+        setCommuter_id(in.readLong());
         setTrip_id(in.readString());
         setStart_lat(in.readDouble());
         setStart_lng(in.readDouble());
@@ -160,6 +159,14 @@ public class Config implements Parcelable
 
     public void setStationaryRadius(float stationaryRadius) {
         this.stationaryRadius = stationaryRadius;
+    }
+
+    public Location getEnd_location() {
+        return end_location;
+    }
+
+    public void setEnd_location(Location end_location){
+        this.end_location = end_location;
     }
 
     public Integer getDesiredAccuracy() {
@@ -315,10 +322,10 @@ public class Config implements Parcelable
     public Boolean hasCommuter_id() {
         return this.commuter_id != null;
     }
-    public Integer getCommuter_id() {
+    public Long getCommuter_id() {
         return commuter_id == null ? -1 : commuter_id;
     }
-    public void setCommuter_id(Integer commuter_id) {
+    public void setCommuter_id(Long commuter_id) {
         this.commuter_id = commuter_id;
     }
 
@@ -478,9 +485,21 @@ public class Config implements Parcelable
         config.setStopOnStillActivity(jObject.optBoolean("stopOnStillActivity", config.getStopOnStillActivity()));
         config.setUrl(jObject.optString("url"));
         config.setSyncUrl(jObject.optString("syncUrl"));
+        config.setCommuter_id(jObject.optLong("commuter_id"));
+        config.setTrip_id(jObject.optString("trip_id"));
+        config.setStart_lat(jObject.optDouble("start_lat"));
+        config.setStart_lng(jObject.optDouble("start_lng"));
+        config.setEnd_lat(jObject.optDouble("end_lat"));
+        config.setEnd_lng(jObject.optDouble("end_lng"));
         config.setSyncThreshold(jObject.optInt("syncThreshold", config.getSyncThreshold()));
         config.setHttpHeaders(jObject.optJSONObject("httpHeaders"));
         config.setMaxLocations(jObject.optInt("maxLocations", config.getMaxLocations()));
+
+        //we set end location here
+        Location end_location = new Location("stub");
+        end_location.setLatitude(config.end_lat);
+        end_location.setLongitude(config.end_lng);
+        config.setEnd_location(end_location);
 
         return config;
     }

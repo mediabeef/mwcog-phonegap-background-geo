@@ -84,6 +84,11 @@ public class LocationService extends Service {
      */
     public static final int MSG_SWITCH_MODE = 6;
 
+    /**
+     * Command sent by the service to
+     * any registered clients with the new position.
+     */
+    public static final int MSG_END_TRIP_REACHED = 7;
 
     /** background operation mode of location provider */
     public static final int BACKGROUND_MODE = 0;
@@ -105,9 +110,9 @@ public class LocationService extends Service {
     private volatile HandlerThread handlerThread;
     private ServiceHandler serviceHandler;
     int notifyID = 1;
-    String CHANNEL_ID = "mwcog_background_geolocation";
-    CharSequence channel_name = getString(R.string.channel_name);
-    int importance = NotificationManager.IMPORTANCE_LOW;
+    final String CHANNEL_ID = "mwcog_background_geolocation";
+    final CharSequence channel_name = "commuter_connections_background";
+    final String channel_description = "Commuter Connections background geolocation notifications";
     NotificationChannel mChannel = null;
 
     private class ServiceHandler extends Handler {
@@ -156,6 +161,26 @@ public class LocationService extends Service {
         return messenger.getBinder();
     }
 
+    /**
+     // Create the NotificationChannel, but only on API 26+ because
+     // the NotificationChannel class is new and not in the support library
+     *
+     */
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_LOW;
+            NotificationChannel channel = new NotificationChannel(this.CHANNEL_ID, this.channel_name, importance);
+            channel.setDescription(this.channel_description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            if (notificationManager != null)    {
+                notificationManager.createNotificationChannel(channel);
+                this.mChannel = channel;
+            }
+        }
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -175,7 +200,9 @@ public class LocationService extends Service {
                     getStringResource(Config.ACCOUNT_TYPE_RESOURCE)));
 
         registerReceiver(connectivityChangeReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-        mChannel = new NotificationChannel(CHANNEL_ID, channel_name, importance);//todob put a API level check here         
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createNotificationChannel();
+        }
     }
 
     @Override
@@ -272,7 +299,12 @@ public class LocationService extends Service {
 
         if (config.getStartForeground()) {
             // Build a Notification required for running service in foreground.
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+            NotificationCompat.Builder builder;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                builder = new NotificationCompat.Builder(this, this.CHANNEL_ID);
+            } else {
+                builder = new NotificationCompat.Builder(this);
+            }
             builder.setContentTitle(config.getNotificationTitle());
             builder.setContentText(config.getNotificationText());
 
@@ -407,7 +439,11 @@ public class LocationService extends Service {
             log.info("LM stops itself due to end_of_trip reached. Location:");
             log.info("latitude: ", location.getLatitude());
             log.info("config: ", config.getEnd_lat());
-//            this.sendClientMessage("Congratulations! Your trip has been verified!");//todob send a local notification here
+            bundle = new Bundle();
+            bundle.putString("message", "Congratulations! Your trip has been verified!");
+            msg = Message.obtain(null, MSG_END_TRIP_REACHED);
+            msg.setData(bundle);
+            this.sendClientMessage(msg);
             this.stopSelf();
         }
     }
