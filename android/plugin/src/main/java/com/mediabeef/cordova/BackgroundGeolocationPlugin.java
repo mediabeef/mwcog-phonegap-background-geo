@@ -102,6 +102,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
                         JSONObject location = ((BackgroundLocation) bundle.getParcelable("location")).toJSONObject();
                         location.put("device_id", "brian3t");
                         PluginResult result = new PluginResult(PluginResult.Status.OK, location);
+/*
                         if (location.getBoolean("is_end_of_trip")){
                             log.debug("____is  bg geo plugin end of trip");
                             log.info("Destroying plugin");
@@ -117,6 +118,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
                             Intent broadcastIntent = new Intent("com.mediabeef.bgloc.RestartLocationService");
                             getContext().sendBroadcast(broadcastIntent);
                         }
+*/
                         result.setKeepCallback(true);
                         callbackContext.sendPluginResult(result);
                     } catch (JSONException e) {
@@ -621,9 +623,6 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
         Collection<BackgroundLocation> locations = dao.getAllLocations();
         for (BackgroundLocation location : locations) {
             jsonLocationsArray.put(location.toJSONObject());
-//            if (location.is_end_of_trip){
-//                this.stopBackgroundService();
-//            }
         }
         return jsonLocationsArray;
     }

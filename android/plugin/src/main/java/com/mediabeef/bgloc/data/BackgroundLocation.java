@@ -87,7 +87,10 @@ public class BackgroundLocation implements Parcelable {
         Location end_location = config.getEnd_location();
         if (end_location == null) return;
         double distance_to_dest = this.getLocation().distanceTo(end_location);
-        log.debug("____distance to dest", distance_to_dest);
+        if (config.isDebugging())
+        {
+            log.debug("____distance to dest", distance_to_dest);
+        }
         this.is_end_of_trip = (distance_to_dest < MIN_LATLNG_THRESHOLD);
     }
 

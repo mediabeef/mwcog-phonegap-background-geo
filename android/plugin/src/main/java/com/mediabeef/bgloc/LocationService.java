@@ -200,9 +200,9 @@ public class LocationService extends Service {
                     getStringResource(Config.ACCOUNT_TYPE_RESOURCE)));
 
         registerReceiver(connectivityChangeReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotificationChannel();
-        }*/
+        }
     }
 
     @Override
@@ -444,7 +444,7 @@ public class LocationService extends Service {
             msg = Message.obtain(null, MSG_END_TRIP_REACHED);
             msg.setData(bundle);
             this.sendClientMessage(msg);
-
+            stopSelf();
         }
     }
 
