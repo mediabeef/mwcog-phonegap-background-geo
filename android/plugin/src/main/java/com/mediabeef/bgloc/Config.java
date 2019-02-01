@@ -151,6 +151,13 @@ public class Config implements Parcelable
         setMaxLocations(in.readInt());
         Bundle bundle = in.readBundle();
         setHttpHeaders((HashMap<String, String>) bundle.getSerializable("httpHeaders"));
+
+        //we set end location here
+        Location end_location = new Location("stub");
+        end_location.setLatitude(end_lat);
+        end_location.setLongitude(end_lng);
+        this.setEnd_location(end_location);
+
     }
 
     public float getStationaryRadius() {

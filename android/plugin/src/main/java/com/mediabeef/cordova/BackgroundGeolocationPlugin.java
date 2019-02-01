@@ -15,27 +15,14 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
-import android.app.ActivityManager;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
+import android.content.*;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.IBinder;
-import android.os.Message;
-import android.os.Messenger;
-import android.os.RemoteException;
+import android.os.*;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.text.TextUtils;
-
 import com.mediabeef.bgloc.Config;
 import com.mediabeef.bgloc.Helpers;
 import com.mediabeef.bgloc.LocationService;
@@ -44,13 +31,10 @@ import com.mediabeef.bgloc.data.BackgroundLocation;
 import com.mediabeef.bgloc.data.ConfigurationDAO;
 import com.mediabeef.bgloc.data.DAOFactory;
 import com.mediabeef.bgloc.data.LocationDAO;
-import com.mediabeef.cordova.JSONErrorFactory;
-import com.mediabeef.cordova.PermissionHelper;
 import com.mediabeef.logging.DBLogReader;
 import com.mediabeef.logging.LogEntry;
 import com.mediabeef.logging.LogReader;
 import com.mediabeef.logging.LoggerManager;
-
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginResult;
@@ -118,6 +102,21 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
                         JSONObject location = ((BackgroundLocation) bundle.getParcelable("location")).toJSONObject();
                         location.put("device_id", "brian3t");
                         PluginResult result = new PluginResult(PluginResult.Status.OK, location);
+                        if (location.getBoolean("is_end_of_trip")){
+                            log.debug("____is  bg geo plugin end of trip");
+                            log.info("Destroying plugin");
+                            unregisterLocationModeChangeReceiver();
+                            doUnbindService();
+                            if (config != null && config.getStopOnTerminate()) {
+                                log.info("Stopping BackgroundService");
+                                stopBackgroundService();
+                            }
+                            // sending broadcast to make sure that LocationService is running porperly,
+                            // service will be restarted if not running already
+                            log.info("Sending broadcast RestartLocationService");
+                            Intent broadcastIntent = new Intent("com.mediabeef.bgloc.RestartLocationService");
+                            getContext().sendBroadcast(broadcastIntent);
+                        }
                         result.setKeepCallback(true);
                         callbackContext.sendPluginResult(result);
                     } catch (JSONException e) {
@@ -622,6 +621,9 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
         Collection<BackgroundLocation> locations = dao.getAllLocations();
         for (BackgroundLocation location : locations) {
             jsonLocationsArray.put(location.toJSONObject());
+//            if (location.is_end_of_trip){
+//                this.stopBackgroundService();
+//            }
         }
         return jsonLocationsArray;
     }

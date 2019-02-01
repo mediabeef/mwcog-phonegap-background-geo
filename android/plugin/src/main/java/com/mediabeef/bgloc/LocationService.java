@@ -200,9 +200,9 @@ public class LocationService extends Service {
                     getStringResource(Config.ACCOUNT_TYPE_RESOURCE)));
 
         registerReceiver(connectivityChangeReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotificationChannel();
-        }
+        }*/
     }
 
     @Override
@@ -436,7 +436,7 @@ public class LocationService extends Service {
         //brian3t now check if location is close to end_lat end_lng. If it does, stop BP
         if (location.is_end_of_trip)
         {
-            log.info("LM stops itself due to end_of_trip reached. Location:");
+            log.info("_________LM stops itself due to end_of_trip reached. Location:");
             log.info("latitude: ", location.getLatitude());
             log.info("config: ", config.getEnd_lat());
             bundle = new Bundle();
@@ -444,7 +444,7 @@ public class LocationService extends Service {
             msg = Message.obtain(null, MSG_END_TRIP_REACHED);
             msg.setData(bundle);
             this.sendClientMessage(msg);
-            this.stopSelf();
+
         }
     }
 

@@ -396,7 +396,7 @@ public class DistanceFilterLocationProvider extends AbstractLocationProvider imp
         if (config.isDebugging()) {
             startTone(Tone.BEEP);
         }
-        float distance = abs(location.distanceTo(stationaryLocation) - stationaryLocation.getAccuracy() - location.getAccuracy());
+        float distance = Math.abs(location.distanceTo(stationaryLocation) - stationaryLocation.getAccuracy() - location.getAccuracy());
 
         if (config.isDebugging()) {
             Toast.makeText(locationService, "Stationary exit in " + (stationaryRadius-distance) + "m", Toast.LENGTH_LONG).show();

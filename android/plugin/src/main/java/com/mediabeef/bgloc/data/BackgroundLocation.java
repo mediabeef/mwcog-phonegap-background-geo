@@ -7,6 +7,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.util.TimeUtils;
 import com.mediabeef.bgloc.Config;
+import com.mediabeef.bgloc.LocationService;
+import com.mediabeef.logging.LoggerManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -75,6 +77,9 @@ public class BackgroundLocation implements Parcelable {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             isFromMockProvider = location.isFromMockProvider();
         }
+
+        log = LoggerManager.getLogger(LocationService.class);
+
     }
 
     public void setConfig(Config config) {
@@ -82,6 +87,7 @@ public class BackgroundLocation implements Parcelable {
         Location end_location = config.getEnd_location();
         if (end_location == null) return;
         double distance_to_dest = this.getLocation().distanceTo(end_location);
+        log.debug("____distance to dest", distance_to_dest);
         this.is_end_of_trip = (distance_to_dest < MIN_LATLNG_THRESHOLD);
     }
 
