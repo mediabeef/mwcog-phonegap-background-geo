@@ -161,26 +161,6 @@ public class LocationService extends Service {
         return messenger.getBinder();
     }
 
-    /**
-     // Create the NotificationChannel, but only on API 26+ because
-     // the NotificationChannel class is new and not in the support library
-     *
-     */
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            int importance = NotificationManager.IMPORTANCE_LOW;
-            NotificationChannel channel = new NotificationChannel(this.CHANNEL_ID, this.channel_name, importance);
-            channel.setDescription(this.channel_description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            if (notificationManager != null)    {
-                notificationManager.createNotificationChannel(channel);
-                this.mChannel = channel;
-            }
-        }
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -200,9 +180,6 @@ public class LocationService extends Service {
                     getStringResource(Config.ACCOUNT_TYPE_RESOURCE)));
 
         registerReceiver(connectivityChangeReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createNotificationChannel();
-        }
     }
 
     @Override
@@ -429,22 +406,40 @@ public class LocationService extends Service {
 
         Bundle bundle = new Bundle();
         bundle.putParcelable("location", location);
-        Message msg = Message.obtain(null, MSG_LOCATION_UPDATE);
-        msg.setData(bundle);
+        Message msg;
 
-        sendClientMessage(msg);
         //brian3t now check if location is close to end_lat end_lng. If it does, stop BP
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle("My notification")
+                .setContentText("Hello World!")
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                // Set the intent that will fire when the user taps the notification
+//                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+            .setSmallIcon(android.R.drawable.ic_menu_mylocation);
+        NotificationManager notificationManager = (NotificationManager) this.getSystemService(NotificationManager.class);
+
+        if (notificationManager != null) {
+            notificationManager.notify(8888, mBuilder.build());
+        }
+
         if (location.is_end_of_trip)
         {
             log.info("_________LM stops itself due to end_of_trip reached. Location:");
             log.info("latitude: ", location.getLatitude());
             log.info("config: ", config.getEnd_lat());
             bundle = new Bundle();
-            bundle.putString("message", "Congratulations! Your trip has been verified!");
-            msg = Message.obtain(null, MSG_END_TRIP_REACHED);
-            msg.setData(bundle);
-            this.sendClientMessage(msg);
+                                bundle.putString("message", "Congratulations! Your trip has been verified!");
+                                msg = Message.obtain(null, MSG_END_TRIP_REACHED);
+                                msg.setData(bundle);
+                                this.sendClientMessage(msg);
+
             stopSelf();
+        } else
+        {
+            msg = Message.obtain(null, MSG_LOCATION_UPDATE);
+            msg.setData(bundle);
+            sendClientMessage(msg);
         }
     }
 

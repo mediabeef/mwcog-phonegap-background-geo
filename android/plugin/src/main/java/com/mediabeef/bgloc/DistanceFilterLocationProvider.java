@@ -69,11 +69,14 @@ public class DistanceFilterLocationProvider extends AbstractLocationProvider imp
     private LocationManager locationManager;
     private AlarmManager alarmManager;
     private NotificationManager notificationManager;
+    final String CHANNEL_ID = "mwcog_background_geolocation";
+    private Context mContext;
 
     private org.slf4j.Logger log;
 
     public DistanceFilterLocationProvider(LocationService context) {
         super(context);
+        this.mContext = context;
         PROVIDER_ID = 0;
     }
 
@@ -256,6 +259,7 @@ public class DistanceFilterLocationProvider extends AbstractLocationProvider imp
         if (config.isDebugging()) {
             Toast.makeText(locationService, "mv:" + isMoving + ",acy:" + location.getAccuracy() + ",v:" + location.getSpeed() + ",df:" + scaledDistanceFilter, Toast.LENGTH_LONG).show();
         }
+
         if (isAcquiringStationaryLocation) {
             if (stationaryLocation == null || stationaryLocation.getAccuracy() > location.getAccuracy()) {
                 stationaryLocation = location;

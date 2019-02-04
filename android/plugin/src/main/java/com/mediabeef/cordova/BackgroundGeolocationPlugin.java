@@ -15,6 +15,8 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.*;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
@@ -91,6 +93,12 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
      * Handler of incoming messages from service.
      */
     class IncomingHandler extends Handler {
+        Context mContext;
+        final String CHANNEL_ID = "mwcog_background_geolocation";
+        final CharSequence channel_name = "commuter_connections_background";
+        final String channel_description = "Commuter Connections background geolocation notifications";
+        NotificationChannel mChannel = null;
+
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -99,28 +107,29 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
                         log.debug("Sending location to webview");
                         Bundle bundle = msg.getData();
                         bundle.setClassLoader(LocationService.class.getClassLoader());
-                        JSONObject location = ((BackgroundLocation) bundle.getParcelable("location")).toJSONObject();
-                        location.put("device_id", "brian3t");
-                        PluginResult result = new PluginResult(PluginResult.Status.OK, location);
-/*
-                        if (location.getBoolean("is_end_of_trip")){
-                            log.debug("____is  bg geo plugin end of trip");
-                            log.info("Destroying plugin");
-                            unregisterLocationModeChangeReceiver();
-                            doUnbindService();
-                            if (config != null && config.getStopOnTerminate()) {
-                                log.info("Stopping BackgroundService");
-                                stopBackgroundService();
+                        BackgroundLocation backgroundLocation = ((BackgroundLocation) bundle.getParcelable("location"));
+                        if (backgroundLocation != null) {
+                            JSONObject location = backgroundLocation.toJSONObject();
+                            PluginResult result = new PluginResult(PluginResult.Status.OK, location);
+                            if (location.getBoolean("is_end_of_trip")) {
+                                log.debug("____is  bg geo plugin end of trip");
+                                /*bundle = new Bundle();
+                                bundle.putString("message", "Congratulations! Your trip has been verified!");
+                                msg = Message.obtain(null, MSG_END_TRIP_REACHED);
+                                msg.setData(bundle);
+                                this.sendClientMessage(msg);*/
+                                log.info("Destroying plugin");
+                                unregisterLocationModeChangeReceiver();
+                                doUnbindService();
+
+                                if (config != null && config.getStopOnTerminate()) {
+                                    log.info("Stopping BackgroundService");
+                                    stopBackgroundService();
+                                }
                             }
-                            // sending broadcast to make sure that LocationService is running porperly,
-                            // service will be restarted if not running already
-                            log.info("Sending broadcast RestartLocationService");
-                            Intent broadcastIntent = new Intent("com.mediabeef.bgloc.RestartLocationService");
-                            getContext().sendBroadcast(broadcastIntent);
+                            result.setKeepCallback(true);
+                            callbackContext.sendPluginResult(result);
                         }
-*/
-                        result.setKeepCallback(true);
-                        callbackContext.sendPluginResult(result);
                     } catch (JSONException e) {
                         log.warn("Error converting message to json");
                         PluginResult result = new PluginResult(PluginResult.Status.JSON_EXCEPTION);
@@ -169,6 +178,27 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
                     break;
                 default:
                     super.handleMessage(msg);
+            }
+        }
+
+
+        /**
+         // Create the NotificationChannel, but only on API 26+ because
+         // the NotificationChannel class is new and not in the support library
+         *
+         */
+        private void createNotificationChannel() {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                int importance = NotificationManager.IMPORTANCE_LOW;
+                NotificationChannel channel = new NotificationChannel(this.CHANNEL_ID, this.channel_name, importance);
+                channel.setDescription(this.channel_description);
+                // Register the channel with the system; you can't change the importance
+                // or other notification behaviors after this
+                NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(NotificationManager.class);
+                if (notificationManager != null)    {
+                    notificationManager.createNotificationChannel(channel);
+                    this.mChannel = channel;
+                }
             }
         }
     }

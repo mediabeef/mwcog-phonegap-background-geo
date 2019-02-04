@@ -89,15 +89,15 @@ public class BackgroundLocation implements Parcelable {
         double distance_to_dest = this.getLocation().distanceTo(end_location);
         if (config.isDebugging())
         {
-            log.debug("____distance to dest", distance_to_dest);
+            log.debug("____distance to dest = {}", distance_to_dest);
         }
         this.is_end_of_trip = (distance_to_dest < MIN_LATLNG_THRESHOLD);
     }
 
     /**
      * Construct stationary BackgroundLocation.
-     * @param locationProvider
-     * @param location
+     * @param locationProvider location provider
+     * @param location location
      * @param radius radius of stationary region
      */
     public BackgroundLocation(Integer locationProvider, Location location, float radius) {
@@ -111,7 +111,7 @@ public class BackgroundLocation implements Parcelable {
 
     /**
      * Construct BackgroundLocation by copying properties from android Location.
-     * @param location
+     * @param location location
      */
     public BackgroundLocation(Location location) {
         this(null, location);
