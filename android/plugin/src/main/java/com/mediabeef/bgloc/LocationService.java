@@ -16,7 +16,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.SQLException;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -104,6 +103,8 @@ public class LocationService extends Service {
     private LocationProvider provider;
     private Account syncAccount;
     private Boolean hasConnectivity = true;
+    protected Notification mNoti;
+    protected NotificationManager mNotificationManager;
 
     private org.slf4j.Logger log;
 
@@ -276,41 +277,40 @@ public class LocationService extends Service {
 
         if (config.getStartForeground()) {
             // Build a Notification required for running service in foreground.
-            NotificationCompat.Builder builder;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                builder = new NotificationCompat.Builder(this, this.CHANNEL_ID);
-            } else {
-                builder = new NotificationCompat.Builder(this);
-            }
-            builder.setContentTitle(config.getNotificationTitle());
-            builder.setContentText(config.getNotificationText());
+            mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+            Context mContext = getApplicationContext();
 
-            if (config.getSmallNotificationIcon() != null) {
-                builder.setSmallIcon(getDrawableResource(config.getSmallNotificationIcon()));
-            } else {
-                builder.setSmallIcon(android.R.drawable.ic_menu_mylocation);
-            }
-
-            if (config.getLargeNotificationIcon() != null) {
-                builder.setLargeIcon(BitmapFactory.decodeResource(getApplication().getResources(), getDrawableResource(config.getLargeNotificationIcon())));
-            }
-
-            if (config.getNotificationIconColor() != null) {
-                builder.setColor(this.parseNotificationIconColor(config.getNotificationIconColor()));
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                String CHANNEL_ID = this.CHANNEL_ID;
+                int importance = NotificationManager.IMPORTANCE_HIGH;
+                NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, this.channel_name, importance);
+                mChannel.setDescription(this.channel_description);
+                mChannel.enableLights(true);
+                mChannel.setLightColor(Color.RED);
+                mChannel.enableVibration(true);
+                mChannel.setShowBadge(true);
+                if (mNotificationManager != null) {
+                    mNotificationManager.createNotificationChannel(mChannel);
+                } else {
+                    log.error("null noti manager");
+                }
             }
 
-            // Add an onclick handler to the notification
-            Context context = getApplicationContext();
-            String packageName = context.getPackageName();
-            Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-            launchIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            PendingIntent contentIntent = PendingIntent.getActivity(context, 0, launchIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-            builder.setContentIntent(contentIntent);
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, CHANNEL_ID)
+                    .setSmallIcon(android.R.drawable.ic_menu_mylocation);
+//                    .setContentTitle("title")
+//                    .setContentText("message");
 
-            Notification notification = builder.build();
-            notification.flags |= Notification.FLAG_ONGOING_EVENT | Notification.FLAG_FOREGROUND_SERVICE | Notification.FLAG_NO_CLEAR;
+//        Intent resultIntent = new Intent(ctx, MainActivity.class);
+//        TaskStackBuilder stackBuilder = TaskStackBuilder.create(ctx);
+//        stackBuilder.addParentStack(MainActivity.class);
+//        stackBuilder.addNextIntent(resultIntent);
+//        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+//        builder.setContentIntent(resultPendingIntent);
+            mNoti = builder.build();
+
             log.info("Executing startForeground with startId: {}", startId);
-            startForeground(startId, notification);
+            startForeground(startId, mNoti);
         }
 
         provider.startRecording();
@@ -409,20 +409,25 @@ public class LocationService extends Service {
         Message msg;
 
         //brian3t now check if location is close to end_lat end_lng. If it does, stop BP
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("My notification")
-                .setContentText("Hello World!")
-                .setPriority(NotificationCompat.PRIORITY_LOW)
-                // Set the intent that will fire when the user taps the notification
-//                .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
-            .setSmallIcon(android.R.drawable.ic_menu_mylocation);
-        NotificationManager notificationManager = (NotificationManager) this.getSystemService(NotificationManager.class);
+        //Get an instance of NotificationManager//
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
+                .setSmallIcon(android.R.drawable.ic_menu_mylocation)
+                    .setContentTitle("Found location: ")
+                    .setContentText("ha ha ha");
 
-        if (notificationManager != null) {
-            notificationManager.notify(8888, mBuilder.build());
+//        Intent resultIntent = new Intent(ctx, MainActivity.class);
+//        TaskStackBuilder stackBuilder = TaskStackBuilder.create(ctx);
+//        stackBuilder.addParentStack(MainActivity.class);
+//        stackBuilder.addNextIntent(resultIntent);
+//        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+//        builder.setContentIntent(resultPendingIntent);
+        mNoti = builder.build();
+        if (mNotificationManager != null) {
+            mNotificationManager.notify(this.notifyID, mNoti);
         }
-
+        else {
+            log.error("null noti manager");
+        }
         if (location.is_end_of_trip)
         {
             log.info("_________LM stops itself due to end_of_trip reached. Location:");
