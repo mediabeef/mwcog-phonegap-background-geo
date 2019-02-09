@@ -18,17 +18,14 @@
 */
 package com.mediabeef.cordova;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-
+import android.content.pm.PackageManager;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.LOG;
 
-import android.content.pm.PackageManager;
-
-import com.mediabeef.bgloc.LocationService;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
 
 /**
  * This class provides reflective methods for permission requesting and checking so that plugins

@@ -49,6 +49,7 @@ import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+
 public class BackgroundGeolocationPlugin extends CordovaPlugin {
 
     public static final String ACTION_START = "start";
@@ -289,6 +290,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
                         log.info("Requesting permissions from user");
                         actionStartCallbackContext = callbackContext;
                         PermissionHelper.requestPermissions(getSelf(), START_REQ_CODE, permissions);
+                        callbackContext.success(1);
                         return;
                     }
 
@@ -728,5 +730,9 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
                 actionStartCallbackContext = null;
                 break;
         }
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+            startMain.addCategory(Intent.CATEGORY_HOME);
+            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            getContext().startActivity(startMain);
     }
 }
