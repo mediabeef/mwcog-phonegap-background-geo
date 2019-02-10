@@ -410,10 +410,13 @@ public class LocationService extends Service {
 
         //brian3t now check if location is close to end_lat end_lng. If it does, stop BP
         //Get an instance of NotificationManager//
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
-                .setSmallIcon(android.R.drawable.ic_menu_mylocation)
-                    .setContentTitle("Found location: ")
-                    .setContentText("ha ha ha");
+        NotificationCompat.Builder builder;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID);
+        } else {
+            builder = new NotificationCompat.Builder(getApplicationContext());
+        }
+        builder.setSmallIcon(android.R.drawable.ic_menu_mylocation);
 
 //        Intent resultIntent = new Intent(ctx, MainActivity.class);
 //        TaskStackBuilder stackBuilder = TaskStackBuilder.create(ctx);
@@ -421,24 +424,20 @@ public class LocationService extends Service {
 //        stackBuilder.addNextIntent(resultIntent);
 //        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 //        builder.setContentIntent(resultPendingIntent);
-        mNoti = builder.build();
-        if (mNotificationManager != null) {
-            mNotificationManager.notify(this.notifyID, mNoti);
-        }
-        else {
-            log.error("null noti manager");
-        }
         if (location.is_end_of_trip)
         {
             log.info("_________LM stops itself due to end_of_trip reached. Location:");
             log.info("latitude: ", location.getLatitude());
             log.info("config: ", config.getEnd_lat());
-            bundle = new Bundle();
-                                bundle.putString("message", "Congratulations! Your trip has been verified!");
-                                msg = Message.obtain(null, MSG_END_TRIP_REACHED);
-                                msg.setData(bundle);
-                                this.sendClientMessage(msg);
-
+            builder.setContentTitle("Commuter Connections Flextrip")
+                    .setContentText("Congratulations! Your trip has been verified!");
+            mNoti = builder.build();
+            if (mNotificationManager != null) {
+                mNotificationManager.notify(this.notifyID, mNoti);
+            }
+            else {
+                log.error("null noti manager");
+            }
             stopSelf();
         } else
         {
