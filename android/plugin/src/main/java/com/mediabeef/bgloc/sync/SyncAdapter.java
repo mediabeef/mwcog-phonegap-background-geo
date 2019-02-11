@@ -2,23 +2,17 @@ package com.mediabeef.bgloc.sync;
 
 import android.accounts.Account;
 import android.app.NotificationManager;
-import android.content.AbstractThreadedSyncAdapter;
-import android.content.ContentProviderClient;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.content.SyncResult;
+import android.content.*;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
-
 import com.mediabeef.bgloc.Config;
 import com.mediabeef.bgloc.HttpPostService;
 import com.mediabeef.bgloc.UploadingCallback;
 import com.mediabeef.bgloc.data.ConfigurationDAO;
 import com.mediabeef.bgloc.data.DAOFactory;
 import com.mediabeef.logging.LoggerManager;
-
 import org.json.JSONException;
 
 import java.io.File;
@@ -33,6 +27,7 @@ import java.util.HashMap;
 public class SyncAdapter extends AbstractThreadedSyncAdapter implements UploadingCallback {
 
     private static final int NOTIFICATION_ID = 666;
+    final String CHANNEL_ID = "mwcog_background_geolocation";
 
     ContentResolver contentResolver;
     private ConfigurationDAO configDAO;
@@ -142,7 +137,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter implements Uploadin
     }
 
     private boolean uploadLocations(File file, String url, HashMap httpHeaders) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext());
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), CHANNEL_ID);//todo multiple version support here
         builder.setOngoing(true);
         builder.setContentTitle("Syncing locations");
         builder.setContentText("Sync in progress");

@@ -285,9 +285,6 @@ public class LocationService extends Service {
                 int importance = NotificationManager.IMPORTANCE_HIGH;
                 NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, this.channel_name, importance);
                 mChannel.setDescription(this.channel_description);
-                mChannel.enableLights(true);
-                mChannel.setLightColor(Color.RED);
-                mChannel.enableVibration(true);
                 mChannel.setShowBadge(true);
                 if (mNotificationManager != null) {
                     mNotificationManager.createNotificationChannel(mChannel);
@@ -297,9 +294,9 @@ public class LocationService extends Service {
             }
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, CHANNEL_ID)
-                    .setSmallIcon(android.R.drawable.ic_menu_mylocation);
-//                    .setContentTitle("title")
-//                    .setContentText("message");
+                    .setSmallIcon(android.R.drawable.ic_menu_mylocation)
+                    .setContentTitle("title")
+                    .setContentText("message");
 
 //        Intent resultIntent = new Intent(ctx, MainActivity.class);
 //        TaskStackBuilder stackBuilder = TaskStackBuilder.create(ctx);
@@ -409,14 +406,6 @@ public class LocationService extends Service {
         Message msg;
 
         //brian3t now check if location is close to end_lat end_lng. If it does, stop BP
-        //Get an instance of NotificationManager//
-        NotificationCompat.Builder builder;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID);
-        } else {
-            builder = new NotificationCompat.Builder(getApplicationContext());
-        }
-        builder.setSmallIcon(android.R.drawable.ic_menu_mylocation);
 
 //        Intent resultIntent = new Intent(ctx, MainActivity.class);
 //        TaskStackBuilder stackBuilder = TaskStackBuilder.create(ctx);
@@ -427,18 +416,43 @@ public class LocationService extends Service {
         if (location.is_end_of_trip)
         {
             log.info("_________LM stops itself due to end_of_trip reached. Location:");
-            log.info("latitude: ", location.getLatitude());
-            log.info("config: ", config.getEnd_lat());
-            builder.setContentTitle("Commuter Connections Flextrip")
+            log.info("latitude: {}", location.getLatitude());
+            log.info("config: {}", config.getEnd_lat());
+
+            // Build a Notification required for running service in foreground.
+
+            mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+            Context mContext = getApplicationContext();
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                String CHANNEL_ID = this.CHANNEL_ID;
+                int importance = NotificationManager.IMPORTANCE_HIGH;
+                NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, this.channel_name, importance);
+                mChannel.setDescription(this.channel_description);
+                mChannel.setShowBadge(true);
+                if (mNotificationManager != null) {
+                    mNotificationManager.createNotificationChannel(mChannel);
+                } else {
+                    log.error("null noti manager");
+                }
+            }
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, CHANNEL_ID)
+                    .setSmallIcon(android.R.drawable.ic_menu_mylocation)
+                    .setContentTitle("Commuter Connections Flextrip")
                     .setContentText("Congratulations! Your trip has been verified!");
+
+//        Intent resultIntent = new Intent(ctx, MainActivity.class);
+//        TaskStackBuilder stackBuilder = TaskStackBuilder.create(ctx);
+//        stackBuilder.addParentStack(MainActivity.class);
+//        stackBuilder.addNextIntent(resultIntent);
+//        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+//        builder.setContentIntent(resultPendingIntent);
             mNoti = builder.build();
-            if (mNotificationManager != null) {
-                mNotificationManager.notify(this.notifyID, mNoti);
-            }
-            else {
-                log.error("null noti manager");
-            }
-            stopSelf();
+
+            mNotificationManager.notify(this.notifyID, mNoti);
+
+//            stopSelf();
         } else
         {
             msg = Message.obtain(null, MSG_LOCATION_UPDATE);
