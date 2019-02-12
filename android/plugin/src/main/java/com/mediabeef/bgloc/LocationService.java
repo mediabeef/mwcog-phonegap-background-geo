@@ -29,6 +29,7 @@ import com.mediabeef.bgloc.sync.AccountHelper;
 import com.mediabeef.bgloc.sync.AuthenticatorService;
 import com.mediabeef.bgloc.sync.SyncService;
 import com.mediabeef.logging.LoggerManager;
+import com.mediabeef.mwcog.MainActivity;
 import com.mediabeef.mwcog.R;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -294,9 +295,9 @@ public class LocationService extends Service {
             }
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, CHANNEL_ID)
-                    .setSmallIcon(android.R.drawable.ic_menu_mylocation)
-                    .setContentTitle("title")
-                    .setContentText("message");
+                    .setSmallIcon(android.R.drawable.ic_menu_mylocation);
+//                    .setContentTitle("title")
+//                    .setContentText("message");
 
 //        Intent resultIntent = new Intent(ctx, MainActivity.class);
 //        TaskStackBuilder stackBuilder = TaskStackBuilder.create(ctx);
@@ -406,13 +407,7 @@ public class LocationService extends Service {
         Message msg;
 
         //brian3t now check if location is close to end_lat end_lng. If it does, stop BP
-
-//        Intent resultIntent = new Intent(ctx, MainActivity.class);
-//        TaskStackBuilder stackBuilder = TaskStackBuilder.create(ctx);
-//        stackBuilder.addParentStack(MainActivity.class);
-//        stackBuilder.addNextIntent(resultIntent);
-//        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-//        builder.setContentIntent(resultPendingIntent);
+//commenting out is_endof trip
         if (location.is_end_of_trip)
         {
             log.info("_________LM stops itself due to end_of_trip reached. Location:");
@@ -426,7 +421,7 @@ public class LocationService extends Service {
 
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 String CHANNEL_ID = this.CHANNEL_ID;
-                int importance = NotificationManager.IMPORTANCE_HIGH;
+                int importance = NotificationManager.IMPORTANCE_MAX;
                 NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, this.channel_name, importance);
                 mChannel.setDescription(this.channel_description);
                 mChannel.setShowBadge(true);
@@ -441,18 +436,22 @@ public class LocationService extends Service {
                     .setSmallIcon(android.R.drawable.ic_menu_mylocation)
                     .setContentTitle("Commuter Connections Flextrip")
                     .setContentText("Congratulations! Your trip has been verified!");
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+            builder.setContentIntent(pendingIntent);
 
-//        Intent resultIntent = new Intent(ctx, MainActivity.class);
-//        TaskStackBuilder stackBuilder = TaskStackBuilder.create(ctx);
-//        stackBuilder.addParentStack(MainActivity.class);
-//        stackBuilder.addNextIntent(resultIntent);
-//        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-//        builder.setContentIntent(resultPendingIntent);
             mNoti = builder.build();
 
-            mNotificationManager.notify(this.notifyID, mNoti);
+        mNotificationManager.notify(this.notifyID, mNoti);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                stopSelf();//delayed Stop, otherwise the notification will go away
+            }
+        }, 6000);
 
-//            stopSelf();
         } else
         {
             msg = Message.obtain(null, MSG_LOCATION_UPDATE);
