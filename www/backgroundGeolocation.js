@@ -131,6 +131,16 @@ var backgroundGeolocation = {
             'showAppSettings', []);
     },
 
+    getIsEndOfTrip: function(success, failure) {
+        if (typeof(success) !== 'function') {
+            throw 'BackgroundGeolocation#getIsEndOfTrip requires a success callback';
+        }
+        exec(success,
+            failure || emptyFnc,
+            'BackgroundGeolocation',
+            'getIsEndOfTrip', []);
+    },
+
     showLocationSettings: function() {
         exec(emptyFnc,
             emptyFnc,

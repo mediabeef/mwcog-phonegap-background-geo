@@ -28,6 +28,7 @@ import com.mediabeef.bgloc.data.LocationDAO;
 import com.mediabeef.bgloc.sync.AccountHelper;
 import com.mediabeef.bgloc.sync.AuthenticatorService;
 import com.mediabeef.bgloc.sync.SyncService;
+import com.mediabeef.cordova.BackgroundGeolocationPlugin;
 import com.mediabeef.logging.LoggerManager;
 import com.mediabeef.mwcog.MainActivity;
 import com.mediabeef.mwcog.R;
@@ -106,6 +107,7 @@ public class LocationService extends Service {
     private Boolean hasConnectivity = true;
     protected Notification mNoti;
     protected NotificationManager mNotificationManager;
+    private BackgroundGeolocationPlugin mPlugin;
 
     private org.slf4j.Logger log;
 
@@ -410,6 +412,7 @@ public class LocationService extends Service {
 //commenting out is_endof trip
         if (location.is_end_of_trip)
         {
+            this.mPlugin.isEndOfTrip = location.is_end_of_trip;
             log.info("_________LM stops itself due to end_of_trip reached. Location:");
             log.info("latitude: {}", location.getLatitude());
             log.info("config: {}", config.getEnd_lat());
@@ -421,7 +424,7 @@ public class LocationService extends Service {
 
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 String CHANNEL_ID = this.CHANNEL_ID;
-                int importance = NotificationManager.IMPORTANCE_MAX;
+                int importance = NotificationManager.IMPORTANCE_HIGH;
                 NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, this.channel_name, importance);
                 mChannel.setDescription(this.channel_description);
                 mChannel.setShowBadge(true);

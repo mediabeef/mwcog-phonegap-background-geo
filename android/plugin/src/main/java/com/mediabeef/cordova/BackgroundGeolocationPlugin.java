@@ -64,6 +64,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
     public static final String ACTION_ADD_STATIONARY_LISTENER = "addStationaryRegionListener";
     public static final String ACTION_GET_STATIONARY = "getStationaryLocation";
     public static final String ACTION_GET_ALL_LOCATIONS = "getLocations";
+    public static final String ACTION_GET_IS_END_OF_TRIP = "getIsEndOfTrip";
     public static final String ACTION_GET_VALID_LOCATIONS = "getValidLocations";
     public static final String ACTION_DELETE_LOCATION = "deleteLocation";
     public static final String ACTION_DELETE_ALL_LOCATIONS = "deleteAllLocations";
@@ -87,6 +88,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
     private ExecutorService executorService;
     private BackgroundLocation stationaryLocation;
     private Helpers helpers = new Helpers();
+    public boolean isEndOfTrip = false;
 
     private org.slf4j.Logger log;
 
@@ -245,18 +247,18 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
     private BroadcastReceiver locationModeChangeReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-        log.debug("Received MODE_CHANGED_ACTION action");
-        if (locationModeChangeCallbackContext != null) {
-            PluginResult result;
-            try {
-                int isLocationEnabled = BackgroundGeolocationPlugin.isLocationEnabled(context) ? 1 : 0;
-                result = new PluginResult(PluginResult.Status.OK, isLocationEnabled);
-                result.setKeepCallback(true);
-            } catch (SettingNotFoundException e) {
-                result = new PluginResult(PluginResult.Status.ERROR, "Location setting error occured");
+            log.debug("Received MODE_CHANGED_ACTION action");
+            if (locationModeChangeCallbackContext != null) {
+                PluginResult result;
+                try {
+                    int isLocationEnabled = BackgroundGeolocationPlugin.isLocationEnabled(context) ? 1 : 0;
+                    result = new PluginResult(PluginResult.Status.OK, isLocationEnabled);
+                    result.setKeepCallback(true);
+                } catch (SettingNotFoundException e) {
+                    result = new PluginResult(PluginResult.Status.ERROR, "Location setting error occured");
+                }
+                locationModeChangeCallbackContext.sendPluginResult(result);
             }
-            locationModeChangeCallbackContext.sendPluginResult(result);
-        }
         }
     };
 
@@ -400,6 +402,14 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
             });
 
             return true;
+        } else if (ACTION_GET_IS_END_OF_TRIP.equals(action)) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    callbackContext.success(getIsEndOfTrip());
+                }
+            });
+
+            return true;
         } else if (ACTION_GET_VALID_LOCATIONS.equals(action)) {
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
@@ -503,7 +513,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
      * The final call you receive before your activity is destroyed.
      * Checks to see if it should turn off
      */
-     @Override
+    @Override
     public void onDestroy() {
         log.info("Destroying plugin");
         unregisterLocationModeChangeReceiver();
@@ -659,6 +669,16 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
         return jsonLocationsArray;
     }
 
+    public JSONObject getIsEndOfTrip(){
+        JSONObject jsonIsEndOfTrip = new JSONObject();
+        try{
+            jsonIsEndOfTrip.put("is_end_of_trip", isEndOfTrip);
+        } catch (JSONException e){
+            int a =1;
+        }
+        return jsonIsEndOfTrip;
+    }
+
     public JSONArray getValidLocations() throws JSONException {
         JSONArray jsonLocationsArray = new JSONArray();
         LocationDAO dao = DAOFactory.createLocationDAO(getContext());
@@ -714,7 +734,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
     }
 
     public void onRequestPermissionResult(int requestCode, String[] permissions,
-        int[] grantResults) throws JSONException {
+                                          int[] grantResults) throws JSONException {
         for (int r : grantResults) {
             if (r == PackageManager.PERMISSION_DENIED) {
                 log.info("Permission Denied!");
@@ -731,8 +751,8 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
                 break;
         }
         Intent startMain = new Intent(Intent.ACTION_MAIN);
-            startMain.addCategory(Intent.CATEGORY_HOME);
-            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            getContext().startActivity(startMain);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getContext().startActivity(startMain);
     }
 }
