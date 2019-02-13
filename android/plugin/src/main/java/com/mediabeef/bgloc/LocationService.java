@@ -409,10 +409,10 @@ public class LocationService extends Service {
         Message msg;
 
         //brian3t now check if location is close to end_lat end_lng. If it does, stop BP
-//commenting out is_endof trip
+        //commenting out is_endof trip
         if (location.is_end_of_trip)
         {
-            this.mPlugin.isEndOfTrip = location.is_end_of_trip;
+            StaticHelper.is_end_of_trip_static = true;
             log.info("_________LM stops itself due to end_of_trip reached. Location:");
             log.info("latitude: {}", location.getLatitude());
             log.info("config: {}", config.getEnd_lat());

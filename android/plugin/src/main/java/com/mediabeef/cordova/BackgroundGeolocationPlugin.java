@@ -25,10 +25,7 @@ import android.os.*;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.text.TextUtils;
-import com.mediabeef.bgloc.Config;
-import com.mediabeef.bgloc.Helpers;
-import com.mediabeef.bgloc.LocationService;
-import com.mediabeef.bgloc.ResourceResolver;
+import com.mediabeef.bgloc.*;
 import com.mediabeef.bgloc.data.BackgroundLocation;
 import com.mediabeef.bgloc.data.ConfigurationDAO;
 import com.mediabeef.bgloc.data.DAOFactory;
@@ -555,6 +552,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
     protected void startAndBindBackgroundService () {
         startBackgroundService();
         doBindService();
+        StaticHelper.is_end_of_trip_static = false;
     }
 
     protected void startBackgroundService () {
@@ -672,7 +670,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
     public JSONObject getIsEndOfTrip(){
         JSONObject jsonIsEndOfTrip = new JSONObject();
         try{
-            jsonIsEndOfTrip.put("is_end_of_trip", isEndOfTrip);
+            jsonIsEndOfTrip.put("is_end_of_trip", StaticHelper.is_end_of_trip_static);
         } catch (JSONException e){
             int a =1;
         }
