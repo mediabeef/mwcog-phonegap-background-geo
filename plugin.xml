@@ -40,6 +40,7 @@
         <source-file src="android/plugin/src/main/java/com/mediabeef/bgloc/LocationProviderFactory.java" target-dir="src/com/mediabeef/bgloc"/>
         <source-file src="android/plugin/src/main/java/com/mediabeef/bgloc/LocationService.java" target-dir="src/com/mediabeef/bgloc"/>
         <source-file src="android/plugin/src/main/java/com/mediabeef/bgloc/RestartLocationServiceReceiver.java" target-dir="src/com/mediabeef/bgloc"/>
+        <source-file src="android/plugin/src/main/java/com/mediabeef/bgloc/StaticHelper.java" target-dir="src/com/mediabeef/bgloc"/>
         <source-file src="android/plugin/src/main/java/com/mediabeef/bgloc/Helpers.java" target-dir="src/com/mediabeef/bgloc"/>
         <source-file src="android/plugin/src/main/java/com/mediabeef/bgloc/ResourceResolver.java" target-dir="src/com/mediabeef/bgloc"/>
         <source-file src="android/plugin/src/main/java/com/mediabeef/bgloc/UploadingCallback.java" target-dir="src/com/mediabeef/bgloc"/>
