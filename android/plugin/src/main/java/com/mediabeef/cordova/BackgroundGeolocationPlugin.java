@@ -62,6 +62,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
     public static final String ACTION_GET_STATIONARY = "getStationaryLocation";
     public static final String ACTION_GET_ALL_LOCATIONS = "getLocations";
     public static final String ACTION_GET_IS_END_OF_TRIP = "getIsEndOfTrip";
+    public static final String ACTION_RESET_IS_END_OF_TRIP = "resetIsEndOfTrip";
     public static final String ACTION_GET_VALID_LOCATIONS = "getValidLocations";
     public static final String ACTION_DELETE_LOCATION = "deleteLocation";
     public static final String ACTION_DELETE_ALL_LOCATIONS = "deleteAllLocations";
@@ -407,6 +408,14 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
             });
 
             return true;
+        } else if (ACTION_RESET_IS_END_OF_TRIP.equals(action)) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    resetIsEndOfTrip();
+                }
+            });
+
+            return true;
         } else if (ACTION_GET_VALID_LOCATIONS.equals(action)) {
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
@@ -674,6 +683,10 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
             int a =1;
         }
         return jsonIsEndOfTrip;
+    }
+
+    public void resetIsEndOfTrip(){
+        StaticHelper.is_end_of_trip_static = false;
     }
 
     public JSONArray getValidLocations() throws JSONException {

@@ -141,6 +141,13 @@ var backgroundGeolocation = {
             'getIsEndOfTrip', []);
     },
 
+    resetIsEndOfTrip: function() {
+        exec(emptyFnc,
+            emptyFnc,
+            'BackgroundGeolocation',
+            'resetIsEndOfTrip', []);
+    },
+
     showLocationSettings: function() {
         exec(emptyFnc,
             emptyFnc,
