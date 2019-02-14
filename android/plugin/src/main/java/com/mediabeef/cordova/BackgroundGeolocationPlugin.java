@@ -553,8 +553,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
         startBackgroundService();
         doBindService();
         StaticHelper.is_end_of_trip_static = false;
-    }
-
+    }_
     protected void startBackgroundService () {
         if (!helpers.isServiceRunning(getContext(), LocationService.class)) {
             log.info("Starting bg service");
