@@ -25,7 +25,11 @@ import android.os.*;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.text.TextUtils;
-import com.mediabeef.bgloc.*;
+import com.mediabeef.bgloc.Config;
+import com.mediabeef.bgloc.Helpers;
+import com.mediabeef.bgloc.LocationService;
+import com.mediabeef.bgloc.ResourceResolver;
+import com.mediabeef.bgloc.StaticHelper;
 import com.mediabeef.bgloc.data.BackgroundLocation;
 import com.mediabeef.bgloc.data.ConfigurationDAO;
 import com.mediabeef.bgloc.data.DAOFactory;
@@ -45,6 +49,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import static com.mediabeef.bgloc.StaticHelper.is_end_of_trip_static;
 
 
 public class BackgroundGeolocationPlugin extends CordovaPlugin {

@@ -40,6 +40,7 @@ import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import static com.mediabeef.bgloc.StaticHelper.is_end_of_trip_static;
 
 public class LocationService extends Service {
 
