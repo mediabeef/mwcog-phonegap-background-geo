@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d4220125-f8fe-464f-a2bc-28bbcdda6e03" name="Default Changelist" comment="Working on new Notification Channel" />
+    <list default="true" id="d4220125-f8fe-464f-a2bc-28bbcdda6e03" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,8 +68,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/bgloc/data/BackgroundLocation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="186">
-              <caret line="92" column="9" lean-forward="true" selection-start-line="92" selection-start-column="9" selection-end-line="92" selection-end-column="9" />
+            <state relative-caret-position="306">
+              <caret line="100" column="48" lean-forward="true" selection-start-line="100" selection-start-column="48" selection-end-line="100" selection-end-column="48" />
             </state>
           </provider>
         </entry>
@@ -181,7 +181,6 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -265,6 +264,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -422,14 +422,21 @@
       <option name="project" value="LOCAL" />
       <updated>1548715133367</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Testing plugin confirm trip verified">
+      <created>1550097394628</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1550097394628</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1922" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4859375" visible="true" weight="0.185836" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4859375" visible="true" weight="0.18743344" />
       <window_info id="Structure" order="1" sideWeight="0.5140625" side_tool="true" weight="0.21671991" />
       <window_info id="Designer" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -522,7 +529,8 @@
     <MESSAGE value="Working on Android plugin now.. Next try emu" />
     <MESSAGE value="fixing null config" />
     <MESSAGE value="Working on new Notification Channel" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working on new Notification Channel" />
+    <MESSAGE value="Testing plugin confirm trip verified" />
+    <option name="LAST_COMMIT_MESSAGE" value="Testing plugin confirm trip verified" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="editorHistoryManager">
@@ -714,8 +722,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/bgloc/data/BackgroundLocation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="92" column="9" lean-forward="true" selection-start-line="92" selection-start-column="9" selection-end-line="92" selection-end-column="9" />
+        <state relative-caret-position="306">
+          <caret line="100" column="48" lean-forward="true" selection-start-line="100" selection-start-column="48" selection-end-line="100" selection-end-column="48" />
         </state>
       </provider>
     </entry>
