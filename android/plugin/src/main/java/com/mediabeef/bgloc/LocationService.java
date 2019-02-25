@@ -30,6 +30,7 @@ import com.mediabeef.bgloc.sync.AuthenticatorService;
 import com.mediabeef.bgloc.sync.SyncService;
 import com.mediabeef.cordova.BackgroundGeolocationPlugin;
 import com.mediabeef.logging.LoggerManager;
+import com.mediabeef.mwcog.MainActivity;
 import com.mediabeef.mwcog.R;
 import org.json.JSONArray;
 import org.json.JSONException;
