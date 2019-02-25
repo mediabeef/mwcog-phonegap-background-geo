@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d4220125-f8fe-464f-a2bc-28bbcdda6e03" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/plugin.xml" afterDir="false" />
-    </list>
+    <list default="true" id="d4220125-f8fe-464f-a2bc-28bbcdda6e03" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,11 +24,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ios/CDVBackgroundGeolocation/LocationManager.h">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ios/CDVBackgroundGeolocation/LocationManager.m">
           <provider selected="true" editor-type-id="text-editor">
@@ -71,8 +63,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/cordova/BackgroundGeolocationPlugin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="178">
-              <caret line="555" column="5" selection-start-line="555" selection-start-column="5" selection-end-line="555" selection-end-column="5" />
+            <state relative-caret-position="7395">
+              <caret line="555" selection-start-line="555" selection-end-line="555" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -83,8 +75,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/bgloc/LocationService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="585">
-              <caret line="46" column="40" lean-forward="true" selection-start-line="46" selection-start-column="40" selection-end-line="46" selection-end-column="40" />
+            <state relative-caret-position="120">
+              <caret line="46" column="40" selection-start-line="46" selection-start-column="40" selection-end-line="46" selection-end-column="40" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -92,11 +84,23 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/plugin.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="42" column="87" selection-start-line="42" selection-start-column="87" selection-end-line="42" selection-end-column="87" />
+            <state relative-caret-position="-420">
+              <caret line="32" column="67" selection-start-line="32" selection-start-column="67" selection-end-line="32" selection-end-column="67" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/mwcog/MainActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="296">
+              <caret line="31" column="62" lean-forward="true" selection-start-line="31" selection-start-column="62" selection-end-line="31" selection-end-column="62" />
+              <folding>
+                <element signature="e#0#1452#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -143,6 +147,7 @@
       <find>16</find>
       <find>minSdkVersion</find>
       <find>81</find>
+      <find>MainActivity</find>
     </findStrings>
     <replaceStrings>
       <replace>mediabeef</replace>
@@ -286,14 +291,25 @@
             </path>
             <path>
               <item name="mwcbggeo_cordova" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mwcbggeo_cordova" type="462c0819:PsiDirectoryNode" />
+              <item name="android" type="462c0819:PsiDirectoryNode" />
+              <item name="plugin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="mediabeef" type="462c0819:PsiDirectoryNode" />
+              <item name="mwcog" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mwcbggeo_cordova" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -479,15 +495,22 @@
       <option name="project" value="LOCAL" />
       <updated>1550133009468</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Add missing Mainactivity.Java">
+      <created>1551058266273</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1551058266273</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="0" width="1920" height="1059" extended-state="6" />
+    <frame x="-3" y="-1" width="1926" height="1063" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.47974068" visible="true" weight="0.1970181" />
-      <window_info id="Structure" order="1" sideWeight="0.5202593" side_tool="true" visible="true" weight="0.1970181" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.47811994" visible="true" weight="0.19914803" />
+      <window_info id="Structure" order="1" sideWeight="0.5218801" side_tool="true" visible="true" weight="0.19914803" />
       <window_info id="Designer" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -582,11 +605,11 @@
     <MESSAGE value="Testing plugin confirm trip verified" />
     <MESSAGE value="Testing plugin confirm trip verified. Added missing imports" />
     <MESSAGE value="keyboard misfire" />
-    <option name="LAST_COMMIT_MESSAGE" value="keyboard misfire" />
+    <MESSAGE value="Add missing Mainactivity.Java" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add missing Mainactivity.Java" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/plugins/cordova-plugin-saralweb-background-geolocation/android/plugin/src/main/java/com/saralweb/bgloc/data/sqlite/SQLiteConfigurationContract.java" />
     <entry file="file://$PROJECT_DIR$/platforms/android/src/com/saralweb/cordova/BackgroundGeolocationPlugin.java" />
     <entry file="file://$PROJECT_DIR$/www/app.js" />
     <entry file="file://$PROJECT_DIR$/platforms/android/src/com/saralweb/bgloc/data/BackgroundLocation.java" />
@@ -752,10 +775,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/cordova/BackgroundGeolocationPlugin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7395">
+          <caret line="555" selection-start-line="555" selection-end-line="555" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/bgloc/LocationService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="46" column="40" lean-forward="true" selection-start-line="46" selection-start-column="40" selection-end-line="46" selection-end-column="40" />
+        <state relative-caret-position="120">
+          <caret line="46" column="40" selection-start-line="46" selection-start-column="40" selection-end-line="46" selection-end-column="40" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -779,20 +812,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/cordova/BackgroundGeolocationPlugin.java">
+    <entry file="file://$PROJECT_DIR$/plugin.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="555" column="5" selection-start-line="555" selection-start-column="5" selection-end-line="555" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="-420">
+          <caret line="32" column="67" selection-start-line="32" selection-start-column="67" selection-end-line="32" selection-end-column="67" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/plugin.xml">
+    <entry file="file://$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/mwcog/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="42" column="87" selection-start-line="42" selection-start-column="87" selection-end-line="42" selection-end-column="87" />
+        <state relative-caret-position="296">
+          <caret line="31" column="62" lean-forward="true" selection-start-line="31" selection-start-column="62" selection-end-line="31" selection-end-column="62" />
+          <folding>
+            <element signature="e#0#1452#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

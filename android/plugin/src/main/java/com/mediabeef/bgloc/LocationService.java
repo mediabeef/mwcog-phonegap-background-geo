@@ -30,7 +30,6 @@ import com.mediabeef.bgloc.sync.AuthenticatorService;
 import com.mediabeef.bgloc.sync.SyncService;
 import com.mediabeef.cordova.BackgroundGeolocationPlugin;
 import com.mediabeef.logging.LoggerManager;
-import com.mediabeef.mwcog.MainActivity;
 import com.mediabeef.mwcog.R;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,7 +39,6 @@ import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import static com.mediabeef.bgloc.StaticHelper.is_end_of_trip_static;
 
 public class LocationService extends Service {
 
