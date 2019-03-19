@@ -85,13 +85,16 @@ public class BackgroundLocation implements Parcelable {
     public void setConfig(Config config) {
         this.config = config;
         Location end_location = config.getEnd_location();
+        Location current_location = this.getLocation();
         if (end_location == null) return;
-        double distance_to_dest = this.getLocation().distanceTo(end_location);
+        double distance_to_dest = current_location.distanceTo(end_location);
+        double distance_to_dest_earth = earthDistance(current_location.getLatitude(), end_location.getLatitude(), current_location.getLongitude(), end_location.getLongitude());
         if (config.isDebugging())
         {
             log.debug("____distance to dest = {}", distance_to_dest);
+            log.debug("____distance to dest earth = {}", distance_to_dest_earth);
         }
-        this.is_end_of_trip = (distance_to_dest < MIN_LATLNG_THRESHOLD);
+        this.is_end_of_trip = (distance_to_dest < MIN_LATLNG_THRESHOLD || distance_to_dest_earth < MIN_LATLNG_THRESHOLD);
     }
 
     /**
@@ -785,5 +788,33 @@ public class BackgroundLocation implements Parcelable {
         JSONObject json = this.toJSONObject();
         json.put("locationId", locationId);
         return json;
+    }
+
+    /**
+     * Calculate distance between two points in latitude and longitude taking
+     * into account height difference. If you are not interested in height
+     * difference pass 0.0. Uses Haversine method as its base.
+     *
+     * @param lat1 double
+     * @param lat2 double
+     * @param lon1 double
+     * @param lon2 double
+     * lat1, lon1 Start point lat2, lon2 End point el1 Start altitude in meters
+     * el2 End altitude in meters
+     * Return Distance in Meters
+     */
+    protected static double earthDistance(double lat1, double lat2, double lon1,
+                                  double lon2) {
+
+        final int R = 6371; // Radius of the earth
+
+        double latDistance = Math.toRadians(lat2 - lat1);
+        double lonDistance = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        return R * c * 1000; // convert to meters
     }
 }

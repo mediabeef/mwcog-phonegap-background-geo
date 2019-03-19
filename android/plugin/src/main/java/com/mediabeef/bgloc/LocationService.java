@@ -10,7 +10,6 @@ This is a new class
 package com.mediabeef.bgloc;
 
 import android.accounts.Account;
-import android.app.*;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -19,7 +18,6 @@ import android.database.SQLException;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.*;
 import android.support.v4.app.NotificationCompat;
 import com.mediabeef.bgloc.data.BackgroundLocation;
 import com.mediabeef.bgloc.data.ConfigurationDAO;
@@ -39,6 +37,7 @@ import org.json.JSONObject;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class LocationService extends Service {
@@ -118,6 +117,7 @@ public class LocationService extends Service {
     final CharSequence channel_name = "commuter_connections_background";
     final String channel_description = "Commuter Connections background geolocation notifications";
     NotificationChannel mChannel = null;
+    protected Date start_time = null;
 
     private class ServiceHandler extends Handler {
         public ServiceHandler(Looper looper) {
@@ -346,6 +346,7 @@ public class LocationService extends Service {
 
     public void startRecording() {
         provider.startRecording();
+        this.start_time = new Date();
     }
 
     public void stopRecording() {
@@ -386,6 +387,12 @@ public class LocationService extends Service {
      */
     public void handleLocation(BackgroundLocation location) {
         log.debug("New location {}", location.toString());
+        String start_time_str = "";
+        if (this.start_time != null){
+            start_time_str = this.start_time.toString();
+        }
+        log.debug("Start time {} ", start_time_str);
+        log.debug("Current time {} ", (new Date()).toString());
 
         location.setBatchStartMillis(System.currentTimeMillis() + ONE_MINUTE); // prevent sync of not yet posted location
         persistLocation(location);
