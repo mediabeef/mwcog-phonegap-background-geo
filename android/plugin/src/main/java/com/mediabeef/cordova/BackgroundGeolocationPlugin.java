@@ -17,9 +17,11 @@ import android.app.Activity;
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.*;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.*;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.text.TextUtils;
@@ -60,6 +62,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
     public static final String ACTION_GET_STATIONARY = "getStationaryLocation";
     public static final String ACTION_GET_ALL_LOCATIONS = "getLocations";
     public static final String ACTION_GET_IS_END_OF_TRIP = "getIsEndOfTrip";
+    public static final String ACTION_RESET_IS_END_OF_TRIP = "resetIsEndOfTrip";
     public static final String ACTION_GET_VALID_LOCATIONS = "getValidLocations";
     public static final String ACTION_DELETE_LOCATION = "deleteLocation";
     public static final String ACTION_DELETE_ALL_LOCATIONS = "deleteAllLocations";
@@ -405,6 +408,14 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
             });
 
             return true;
+        } else if (ACTION_RESET_IS_END_OF_TRIP.equals(action)) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    resetIsEndOfTrip();
+                }
+            });
+
+            return true;
         } else if (ACTION_GET_VALID_LOCATIONS.equals(action)) {
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
@@ -652,6 +663,10 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
             locationProviders = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
             return !TextUtils.isEmpty(locationProviders);
         }
+    }
+
+    public void resetIsEndOfTrip(){
+        StaticHelper.is_end_of_trip_static = false;
     }
 
     public JSONArray getAllLocations() throws JSONException {
