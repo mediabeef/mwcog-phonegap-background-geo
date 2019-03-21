@@ -10,7 +10,6 @@ This is a new class
 package com.mediabeef.bgloc;
 
 import android.accounts.Account;
-import android.app.*;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -19,7 +18,6 @@ import android.database.SQLException;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.*;
 import android.support.v4.app.NotificationCompat;
 import com.mediabeef.bgloc.data.BackgroundLocation;
 import com.mediabeef.bgloc.data.ConfigurationDAO;
@@ -31,7 +29,6 @@ import com.mediabeef.bgloc.sync.SyncService;
 import com.mediabeef.cordova.BackgroundGeolocationPlugin;
 import com.mediabeef.logging.LoggerManager;
 import com.mediabeef.mwcog.MainActivity;
-import com.mediabeef.mwcog.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,7 +41,9 @@ import java.util.List;
 
 public class LocationService extends Service {
 
-    /** Keeps track of all current registered clients. */
+    /**
+     * Keeps track of all current registered clients.
+     */
     ArrayList<Messenger> mClients = new ArrayList<Messenger>();
 
     /**
@@ -92,14 +91,19 @@ public class LocationService extends Service {
      */
     public static final int MSG_END_TRIP_REACHED = 7;
 
-    /** background operation mode of location provider */
+    /**
+     * background operation mode of location provider
+     */
     public static final int BACKGROUND_MODE = 0;
 
-    /** foreground operation mode of location provider */
+    /**
+     * foreground operation mode of location provider
+     */
     public static final int FOREGROUND_MODE = 1;
 
     private static final int ONE_MINUTE = 1000 * 60;
     private static final int FIVE_MINUTES = 1000 * 60 * 5;
+    private static final int TIMEOUT_SELF_KILL_HOURS = 4;
 
     private LocationDAO dao;
     private Config config;
@@ -119,7 +123,7 @@ public class LocationService extends Service {
     final CharSequence channel_name = "commuter_connections_background";
     final String channel_description = "Commuter Connections background geolocation notifications";
     NotificationChannel mChannel = null;
-    protected Date start_time = null;
+    protected Date time_to_kill_self = null;
 
     private class ServiceHandler extends Handler {
         public ServiceHandler(Looper looper) {
@@ -172,6 +176,8 @@ public class LocationService extends Service {
         super.onCreate();
         log = LoggerManager.getLogger(LocationService.class);
         log.info("Creating LocationService");
+        this.time_to_kill_self = new Date();
+        this.time_to_kill_self.setTime(this.time_to_kill_self.getTime() + LocationService.TIMEOUT_SELF_KILL_HOURS * 60 * 60 * 1000);
 
         // An Android handler thread internally operates on a looper.
         handlerThread = new HandlerThread("LocationService.HandlerThread");
@@ -182,8 +188,8 @@ public class LocationService extends Service {
         dao = (DAOFactory.createLocationDAO(this));
         syncAccount = AccountHelper.CreateSyncAccount(this,
                 AuthenticatorService.getAccount(
-                    getStringResource(Config.ACCOUNT_NAME_RESOURCE),
-                    getStringResource(Config.ACCOUNT_TYPE_RESOURCE)));
+                        getStringResource(Config.ACCOUNT_NAME_RESOURCE),
+                        getStringResource(Config.ACCOUNT_TYPE_RESOURCE)));
 
         registerReceiver(connectivityChangeReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
@@ -191,6 +197,7 @@ public class LocationService extends Service {
     @Override
     public void onDestroy() {
         log.info("Destroying LocationService");
+        this.time_to_kill_self = null;
         provider.onDestroy();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
@@ -348,7 +355,6 @@ public class LocationService extends Service {
 
     public void startRecording() {
         provider.startRecording();
-        this.start_time = new Date();
     }
 
     public void stopRecording() {
@@ -358,7 +364,7 @@ public class LocationService extends Service {
     public boolean isOSCustomAndroid() {
         log.info("MANUFACTURER: {} BRAND: {}", Build.MANUFACTURER, Build.BRAND);
         // TODO: get list of brands from config (which comes with custom android os and has autostart and power saving mode)
-        List<String> brandsWithCustomOS = new ArrayList<String> (Arrays.asList(new String[] {"vivo", "oppo", "lava"}));
+        List<String> brandsWithCustomOS = new ArrayList<String>(Arrays.asList(new String[]{"vivo", "oppo", "lava"}));
 
         for (String bElem : brandsWithCustomOS) {
             if (bElem.equalsIgnoreCase(Build.BRAND) || bElem.equalsIgnoreCase(Build.MANUFACTURER)) {
@@ -373,15 +379,15 @@ public class LocationService extends Service {
     /**
      * Handle location from location location provider
      * Brian3t similar to flushQueue()
-     *
+     * <p>
      * All locations updates are recorded in local db at all times.
      * Also location is also send to all messenger clients.
-     *
+     * <p>
      * If option.url is defined, each location is also immediately posted.
      * If post is successful, the location is deleted from local db.
      * All failed to post locations are coalesced and send in some time later in one single batch.
      * Batch sync takes place only when number of failed to post locations reaches syncTreshold.
-     *
+     * <p>
      * If only option.syncUrl is defined, locations are send only in single batch,
      * when number of locations reaches syncTreshold.
      *
@@ -389,12 +395,57 @@ public class LocationService extends Service {
      */
     public void handleLocation(BackgroundLocation location) {
         log.debug("New location {}", location.toString());
-        String start_time_str = "";
-        if (this.start_time != null){
-            start_time_str = this.start_time.toString();
+        String time_to_kill_self_str = "";
+        Date cur_time = (new Date());
+        if (this.time_to_kill_self != null) {
+            time_to_kill_self_str = this.time_to_kill_self.toString();
         }
-        log.debug("Start time {} ", start_time_str);
-        log.debug("Current time {} ", (new Date()).toString());
+        if (config.isDebugging()) {
+            log.debug("Start time {} ", time_to_kill_self_str);
+            log.debug("Current time {} ", cur_time.toString());
+        }
+        if (cur_time.after(time_to_kill_self)) {
+            log.info("_________LM stops itself because of timeout:");
+            log.info("Start time {} ", time_to_kill_self_str);
+            log.info("Current time {} ", cur_time.toString());
+
+            // Build a Notification required for running service in foreground.
+            mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+            Context mContext = getApplicationContext();
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                String CHANNEL_ID = this.CHANNEL_ID;
+                int importance = NotificationManager.IMPORTANCE_HIGH;
+                NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, this.channel_name, importance);
+                mChannel.setDescription(this.channel_description);
+                mChannel.setShowBadge(true);
+                if (mNotificationManager != null) {
+                    mNotificationManager.createNotificationChannel(mChannel);
+                } else {
+                    log.error("null noti manager");
+                }
+            }
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, CHANNEL_ID)
+                    .setSmallIcon(android.R.drawable.ic_menu_mylocation)
+                    .setContentTitle("Commuter Connections Flextrip")
+                    .setContentText("Timeout reached. Your trip is not being logged anymore");
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+            builder.setContentIntent(pendingIntent);
+
+            mNoti = builder.build();
+
+            mNotificationManager.notify(this.notifyID, mNoti);
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    stopSelf();//delayed Stop, otherwise the notification will go away
+                }
+            }, 6000);
+        }
+
 
         location.setBatchStartMillis(System.currentTimeMillis() + ONE_MINUTE); // prevent sync of not yet posted location
         persistLocation(location);
@@ -419,8 +470,7 @@ public class LocationService extends Service {
 
         //brian3t now check if location is close to end_lat end_lng. If it does, stop BP
         //commenting out is_endof trip
-        if (location.is_end_of_trip)
-        {
+        if (location.is_end_of_trip) {
             StaticHelper.is_end_of_trip_static = true;
             log.info("_________LM stops itself due to end_of_trip reached. Location:");
             log.info("latitude: {}", location.getLatitude());
@@ -455,17 +505,16 @@ public class LocationService extends Service {
 
             mNoti = builder.build();
 
-        mNotificationManager.notify(this.notifyID, mNoti);
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                stopSelf();//delayed Stop, otherwise the notification will go away
-            }
-        }, 6000);
+            mNotificationManager.notify(this.notifyID, mNoti);
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    stopSelf();//delayed Stop, otherwise the notification will go away
+                }
+            }, 6000);
 
-        } else
-        {
+        } else {
             msg = Message.obtain(null, MSG_LOCATION_UPDATE);
             msg.setData(bundle);
             sendClientMessage(msg);
@@ -506,7 +555,7 @@ public class LocationService extends Service {
     }
 
     @Override
-    public void unregisterReceiver (BroadcastReceiver receiver) {
+    public void unregisterReceiver(BroadcastReceiver receiver) {
         super.unregisterReceiver(receiver);
     }
 
@@ -520,7 +569,7 @@ public class LocationService extends Service {
     }
 
     // method will mutate location
-    public Long persistLocation (BackgroundLocation location) {
+    public Long persistLocation(BackgroundLocation location) {
         Long locationId = -1L;
         try {
             locationId = dao.persistLocationWithLimit(location, config.getMaxLocations());
@@ -542,8 +591,7 @@ public class LocationService extends Service {
         PostLocationTask task = new LocationService.PostLocationTask();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, location);
-        }
-        else {
+        } else {
             task.execute(location);
         }
     }
