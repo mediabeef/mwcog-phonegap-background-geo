@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d4220125-f8fe-464f-a2bc-28bbcdda6e03" name="Default Changelist" comment="">
+    <list default="true" id="d4220125-f8fe-464f-a2bc-28bbcdda6e03" name="Default Changelist" comment="Add missing imports 03/21 7pm">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/bgloc/LocationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/bgloc/LocationService.java" afterDir="false" />
     </list>
@@ -28,18 +28,9 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ios/CDVBackgroundGeolocation/LocationManager.m">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6075">
-              <caret line="405" selection-start-line="405" selection-end-line="405" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/bgloc/data/sqlite/SQLiteConfigurationContract.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
+            <state>
               <caret line="31" column="55" selection-start-line="31" selection-start-column="35" selection-end-line="31" selection-end-column="55" />
             </state>
           </provider>
@@ -66,7 +57,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/cordova/BackgroundGeolocationPlugin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7530">
+            <state relative-caret-position="8025">
               <caret line="566" selection-start-line="566" selection-end-line="566" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -78,8 +69,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/bgloc/LocationService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="30" column="44" lean-forward="true" selection-start-line="30" selection-start-column="44" selection-end-line="30" selection-end-column="44" />
+            <state relative-caret-position="225">
+              <caret line="22" column="49" selection-start-line="22" selection-start-column="49" selection-end-line="22" selection-end-column="49" />
             </state>
           </provider>
         </entry>
@@ -179,6 +170,7 @@
         <option value="$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/bgloc/data/BackgroundLocation.java" />
         <option value="$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/cordova/BackgroundGeolocationPlugin.java" />
         <option value="$PROJECT_DIR$/plugin.xml" />
+        <option value="$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/bgloc/LocationService.java" />
       </list>
     </option>
   </component>
@@ -200,93 +192,10 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
-            <path>
-              <item name="mwcbggeo_cordova" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mwcbggeo_cordova" type="47feb1d3:ProjectViewModuleNode" />
-            </path>
-            <path>
-              <item name="mwcbggeo_cordova" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mwcbggeo_cordova" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="mwcbggeo_cordova" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mwcbggeo_cordova" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mwcbggeo_cordova" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="mwcbggeo_cordova" type="462c0819:PsiDirectoryNode" />
-              <item name="android" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mwcbggeo_cordova" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mwcbggeo_cordova" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="mwcbggeo_cordova" type="462c0819:PsiDirectoryNode" />
-              <item name="android" type="462c0819:PsiDirectoryNode" />
-              <item name="plugin" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mwcbggeo_cordova" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mwcbggeo_cordova" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="mwcbggeo_cordova" type="462c0819:PsiDirectoryNode" />
-              <item name="android" type="462c0819:PsiDirectoryNode" />
-              <item name="plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mwcbggeo_cordova" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mwcbggeo_cordova" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="mwcbggeo_cordova" type="462c0819:PsiDirectoryNode" />
-              <item name="android" type="462c0819:PsiDirectoryNode" />
-              <item name="plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mwcbggeo_cordova" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mwcbggeo_cordova" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="mwcbggeo_cordova" type="462c0819:PsiDirectoryNode" />
-              <item name="android" type="462c0819:PsiDirectoryNode" />
-              <item name="plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mwcbggeo_cordova" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mwcbggeo_cordova" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="mwcbggeo_cordova" type="462c0819:PsiDirectoryNode" />
-              <item name="android" type="462c0819:PsiDirectoryNode" />
-              <item name="plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="mediabeef" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mwcbggeo_cordova" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mwcbggeo_cordova" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="mwcbggeo_cordova" type="462c0819:PsiDirectoryNode" />
-              <item name="android" type="462c0819:PsiDirectoryNode" />
-              <item name="plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="mediabeef" type="462c0819:PsiDirectoryNode" />
-              <item name="bgloc" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mwcbggeo_cordova" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mwcbggeo_cordova" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="mwcbggeo_cordova" type="462c0819:PsiDirectoryNode" />
-              <item name="android" type="462c0819:PsiDirectoryNode" />
-              <item name="plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="mediabeef" type="462c0819:PsiDirectoryNode" />
-              <item name="mwcog" type="462c0819:PsiDirectoryNode" />
-            </path>
             <path>
               <item name="mwcbggeo_cordova" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
@@ -296,7 +205,6 @@
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -496,15 +404,21 @@
       <option name="project" value="LOCAL" />
       <updated>1553204690237</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Add missing imports">
+      <created>1553219572726</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1553219572726</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1922" height="1055" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.47540984" visible="true" weight="0.20340788" />
-      <window_info id="Structure" order="1" sideWeight="0.52459013" side_tool="true" visible="true" weight="0.20340788" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4737705" visible="true" weight="0.20553781" />
+      <window_info id="Structure" order="1" sideWeight="0.5262295" side_tool="true" visible="true" weight="0.20553781" />
       <window_info id="Designer" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -515,11 +429,11 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="8" sideWeight="0.49893504" visible="true" weight="0.3426724" />
+      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49840257" visible="true" weight="0.3426724" />
       <window_info anchor="bottom" id="Database Changes" order="9" weight="0.32914045" />
       <window_info anchor="bottom" id="Migrations" order="10" />
       <window_info anchor="bottom" id="Terminal" order="11" />
-      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.50106496" side_tool="true" weight="0.32914045" />
+      <window_info active="true" anchor="bottom" id="Event Log" order="12" sideWeight="0.50159746" side_tool="true" visible="true" weight="0.3426724" />
       <window_info anchor="bottom" id="Messages" order="13" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -601,11 +515,13 @@
     <MESSAGE value="keyboard misfire" />
     <MESSAGE value="Add missing Mainactivity.Java" />
     <MESSAGE value="Working on time to kill self" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working on time to kill self" />
+    <MESSAGE value="Add missing imports" />
+    <MESSAGE value="Add missing imports 03/21 7pm" />
+    <MESSAGE value="Add missing imports 03/21 6:58pm" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add missing imports 03/21 6:58pm" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/platforms/android/src/com/saralweb/cordova/BackgroundGeolocationPlugin.java" />
     <entry file="file://$PROJECT_DIR$/www/app.js" />
     <entry file="file://$PROJECT_DIR$/platforms/android/src/com/saralweb/bgloc/data/BackgroundLocation.java" />
     <entry file="file://$PROJECT_DIR$/platforms/android/.gitignore" />
@@ -751,7 +667,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/bgloc/data/sqlite/SQLiteConfigurationContract.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
+        <state>
           <caret line="31" column="55" selection-start-line="31" selection-start-column="35" selection-end-line="31" selection-end-column="55" />
         </state>
       </provider>
@@ -772,7 +688,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/cordova/BackgroundGeolocationPlugin.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7530">
+        <state relative-caret-position="8025">
           <caret line="566" selection-start-line="566" selection-end-line="566" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -784,6 +700,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="480">
           <caret line="32" column="67" selection-start-line="32" selection-start-column="67" selection-end-line="32" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/mwcog/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="62" selection-start-line="15" selection-start-column="62" selection-end-line="15" selection-end-column="62" />
         </state>
       </provider>
     </entry>
@@ -804,17 +727,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/mwcog/MainActivity.java">
+    <entry file="file://$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/bgloc/Config.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="62" selection-start-line="15" selection-start-column="62" selection-end-line="15" selection-end-column="62" />
+        <state relative-caret-position="165">
+          <caret line="26" column="51" lean-forward="true" selection-start-line="26" selection-start-column="51" selection-end-line="26" selection-end-column="51" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/bgloc/LocationService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="30" column="44" lean-forward="true" selection-start-line="30" selection-start-column="44" selection-end-line="30" selection-end-column="44" />
+        <state relative-caret-position="225">
+          <caret line="22" column="49" selection-start-line="22" selection-start-column="49" selection-end-line="22" selection-end-column="49" />
         </state>
       </provider>
     </entry>

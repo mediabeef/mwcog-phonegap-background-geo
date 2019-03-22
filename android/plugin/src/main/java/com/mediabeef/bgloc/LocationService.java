@@ -10,6 +10,7 @@ This is a new class
 package com.mediabeef.bgloc;
 
 import android.accounts.Account;
+import android.app.*;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -18,7 +19,9 @@ import android.database.SQLException;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.*;
 import android.support.v4.app.NotificationCompat;
+
 import com.mediabeef.bgloc.data.BackgroundLocation;
 import com.mediabeef.bgloc.data.ConfigurationDAO;
 import com.mediabeef.bgloc.data.DAOFactory;
@@ -29,6 +32,7 @@ import com.mediabeef.bgloc.sync.SyncService;
 import com.mediabeef.cordova.BackgroundGeolocationPlugin;
 import com.mediabeef.logging.LoggerManager;
 import com.mediabeef.mwcog.MainActivity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
