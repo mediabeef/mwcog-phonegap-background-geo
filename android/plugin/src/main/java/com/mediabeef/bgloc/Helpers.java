@@ -20,11 +20,11 @@ public class Helpers {
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (serviceClass.getName().equals(service.service.getClassName())) {
-                Log.d(TAG, "isServiceRunning: true");
+                Log.d(TAG, "getIsServiceRunning: true");
                 return true;
             }
         }
-        Log.d(TAG, "isServiceRunning: false");
+        Log.d(TAG, "getIsServiceRunning: false");
         return false;
     }
 }

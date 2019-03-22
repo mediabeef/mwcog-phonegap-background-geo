@@ -107,7 +107,8 @@ public class LocationService extends Service {
 
     private static final int ONE_MINUTE = 1000 * 60;
     private static final int FIVE_MINUTES = 1000 * 60 * 5;
-    private static final int TIMEOUT_SELF_KILL_HOURS = 4;
+        private static final double TIMEOUT_SELF_KILL_HOURS = 4;
+//    private static final float TIMEOUT_SELF_KILL_HOURS = (float)4 / 60;//todob debug = 4 minutes
 
     private LocationDAO dao;
     private Config config;
@@ -181,7 +182,7 @@ public class LocationService extends Service {
         log = LoggerManager.getLogger(LocationService.class);
         log.info("Creating LocationService");
         this.time_to_kill_self = new Date();
-        this.time_to_kill_self.setTime(this.time_to_kill_self.getTime() + LocationService.TIMEOUT_SELF_KILL_HOURS * 60 * 60 * 1000);
+        this.time_to_kill_self.setTime((long) (this.time_to_kill_self.getTime() + LocationService.TIMEOUT_SELF_KILL_HOURS * 60 * 60 * 1000));
 
         // An Android handler thread internally operates on a looper.
         handlerThread = new HandlerThread("LocationService.HandlerThread");
@@ -409,6 +410,7 @@ public class LocationService extends Service {
             log.debug("Current time {} ", cur_time.toString());
         }
         if (cur_time.after(time_to_kill_self)) {
+            StaticHelper.is_timeout_reached = true;
             log.info("_________LM stops itself because of timeout:");
             log.info("Start time {} ", time_to_kill_self_str);
             log.info("Current time {} ", cur_time.toString());

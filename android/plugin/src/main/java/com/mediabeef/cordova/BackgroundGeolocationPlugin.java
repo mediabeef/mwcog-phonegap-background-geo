@@ -62,6 +62,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
     public static final String ACTION_GET_STATIONARY = "getStationaryLocation";
     public static final String ACTION_GET_ALL_LOCATIONS = "getLocations";
     public static final String ACTION_GET_IS_END_OF_TRIP = "getIsEndOfTrip";
+    public static final String ACTION_GET_IS_SERVICE_RUNNING = "getIsServiceRunning";
     public static final String ACTION_RESET_IS_END_OF_TRIP = "resetIsEndOfTrip";
     public static final String ACTION_GET_VALID_LOCATIONS = "getValidLocations";
     public static final String ACTION_DELETE_LOCATION = "deleteLocation";
@@ -114,11 +115,17 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
                             PluginResult result = new PluginResult(PluginResult.Status.OK, location);
                             if (location.getBoolean("is_end_of_trip")) {
                                 log.debug("____is  bg geo plugin end of trip");
-                                /*bundle = new Bundle();
-                                bundle.putString("message", "Congratulations! Your trip has been verified!");
-                                msg = Message.obtain(null, MSG_END_TRIP_REACHED);
-                                msg.setData(bundle);
-                                this.sendClientMessage(msg);*/
+                                log.info("Destroying plugin");
+                                unregisterLocationModeChangeReceiver();
+                                doUnbindService();
+
+                                if (config != null && config.getStopOnTerminate()) {
+                                    log.info("Stopping BackgroundService");
+                                    stopBackgroundService();
+                                }
+                            }
+                            if (StaticHelper.is_timeout_reached) {
+                                log.debug("____ bg geo plugin timeout reached");
                                 log.info("Destroying plugin");
                                 unregisterLocationModeChangeReceiver();
                                 doUnbindService();
@@ -408,6 +415,14 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
             });
 
             return true;
+        }  else if (ACTION_GET_IS_SERVICE_RUNNING.equals(action)) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    callbackContext.success(getIsServiceRunning());
+                }
+            });
+
+            return true;
         } else if (ACTION_RESET_IS_END_OF_TRIP.equals(action)) {
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
@@ -562,6 +577,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
         startBackgroundService();
         doBindService();
         StaticHelper.is_end_of_trip_static = false;
+        StaticHelper.is_timeout_reached = false;
     }
     protected void startBackgroundService () {
         if (!helpers.isServiceRunning(getContext(), LocationService.class)) {
@@ -649,6 +665,12 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
         getContext().startActivity(intent);
+    }
+
+    public JSONArray getIsServiceRunning(){
+        JSONArray is_service_running = new JSONArray();
+        is_service_running.put(helpers.isServiceRunning(getContext(), LocationService.class));
+        return is_service_running;
     }
 
     public static boolean isLocationEnabled(Context context) throws SettingNotFoundException {

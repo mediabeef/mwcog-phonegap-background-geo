@@ -141,6 +141,16 @@ var backgroundGeolocation = {
             'getIsEndOfTrip', []);
     },
 
+    getIsServiceRunning: function(success, failure) {
+        if (typeof(success) !== 'function') {
+            throw 'BackgroundGeolocation#getIsServiceRunning requires a success callback';
+        }
+        exec(success,
+            failure || emptyFnc,
+            'BackgroundGeolocation',
+            'getIsServiceRunning', []);
+    },
+
     resetIsEndOfTrip: function() {
         exec(emptyFnc,
             emptyFnc,
