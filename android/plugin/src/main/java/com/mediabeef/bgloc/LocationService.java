@@ -107,8 +107,8 @@ public class LocationService extends Service {
 
     private static final int ONE_MINUTE = 1000 * 60;
     private static final int FIVE_MINUTES = 1000 * 60 * 5;
-        private static final double TIMEOUT_SELF_KILL_HOURS = 4;
-//    private static final float TIMEOUT_SELF_KILL_HOURS = (float)4 / 60;//todob debug = 4 minutes
+        private static final float TIMEOUT_SELF_KILL_HOURS = 4;
+//    private static final float TIMEOUT_SELF_KILL_HOURS = (float)2 / 60;//ttodob debug = 2 minutes
 
     private LocationDAO dao;
     private Config config;
@@ -436,7 +436,10 @@ public class LocationService extends Service {
                     .setContentTitle("Commuter Connections Flextrip")
                     .setContentText("Timeout reached. Your trip is not being logged anymore");
             Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("launcher", "mwcbg");
+            intent.putExtra("reason", "location_service_timeout_reached");
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            //done preparing intent. now wrap it
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
             builder.setContentIntent(pendingIntent);
 
@@ -506,6 +509,9 @@ public class LocationService extends Service {
                     .setContentText("Congratulations! Your trip has been verified!");
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.putExtra("launcher", "mwcbg");
+            intent.putExtra("reason", "location_service_is_end_of_trip_true");
+
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
             builder.setContentIntent(pendingIntent);
 
