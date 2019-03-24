@@ -21,6 +21,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.*;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 
 import com.mediabeef.bgloc.data.BackgroundLocation;
 import com.mediabeef.bgloc.data.ConfigurationDAO;
@@ -409,7 +410,7 @@ public class LocationService extends Service {
             log.debug("Start time {} ", time_to_kill_self_str);
             log.debug("Current time {} ", cur_time.toString());
         }
-        if (cur_time.after(time_to_kill_self)) {
+        if (cur_time.after(time_to_kill_self)) {//ttodob debugging
             StaticHelper.is_timeout_reached = true;
             log.info("_________LM stops itself because of timeout:");
             log.info("Start time {} ", time_to_kill_self_str);
@@ -436,11 +437,12 @@ public class LocationService extends Service {
                     .setContentTitle("Commuter Connections Flextrip")
                     .setContentText("Timeout reached. Your trip is not being logged anymore");
             Intent intent = new Intent(this, MainActivity.class);
+            intent.addCategory(Intent.CATEGORY_LAUNCHER);
             intent.putExtra("launcher", "mwcbg");
             intent.putExtra("reason", "location_service_timeout_reached");
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             //done preparing intent. now wrap it
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             builder.setContentIntent(pendingIntent);
 
             mNoti = builder.build();
@@ -453,6 +455,19 @@ public class LocationService extends Service {
                     stopSelf();//delayed Stop, otherwise the notification will go away
                 }
             }, 6000);
+
+            if (android.os.Build.VERSION.SDK_INT == 23){//this is for Blackberry 6.0.1
+                log.info("________this is for Blackberry 6.0.1");
+                NotificationCompat.Builder builder_v23 = new NotificationCompat.Builder(mContext)
+                        .setSmallIcon(android.R.drawable.ic_menu_mylocation)
+                        .setContentTitle("ommuter Connections Flextrip")
+                        .setContentText("Timeout reached. Your trip is not being logged anymore")
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                        .setContentIntent(pendingIntent)
+                        .setAutoCancel(true);
+                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(mContext);
+                notificationManager.notify(1345, builder_v23.build());
+            }
         }
 
 
