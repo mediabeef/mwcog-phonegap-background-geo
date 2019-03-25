@@ -470,7 +470,6 @@ public class LocationService extends Service {
             }
         }
 
-
         location.setBatchStartMillis(System.currentTimeMillis() + ONE_MINUTE); // prevent sync of not yet posted location
         persistLocation(location);
 
@@ -541,6 +540,18 @@ public class LocationService extends Service {
                 }
             }, 6000);
 
+            if (android.os.Build.VERSION.SDK_INT == 23){//this is for Blackberry 6.0.1
+                log.info("________this is for Blackberry 6.0.1");
+                NotificationCompat.Builder builder_v23 = new NotificationCompat.Builder(mContext)
+                        .setSmallIcon(android.R.drawable.ic_menu_mylocation)
+                        .setContentTitle("Commuter Connections Flextrip")
+                        .setContentText("Congratulations! Your trip has been verified!")
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                        .setContentIntent(pendingIntent)
+                        .setAutoCancel(true);
+                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(mContext);
+                notificationManager.notify(1346, builder_v23.build());
+            }
         } else {
             msg = Message.obtain(null, MSG_LOCATION_UPDATE);
             msg.setData(bundle);
