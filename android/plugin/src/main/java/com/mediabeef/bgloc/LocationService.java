@@ -217,9 +217,11 @@ public class LocationService extends Service {
 
         // sending broadcast to make sure that LocationService is running porperly,
         // service will be restarted if not running already
-        log.info("Sending broadcast RestartLocationService");
-        Intent broadcastIntent = new Intent("com.mediabeef.bgloc.RestartLocationService");
-        sendBroadcast(broadcastIntent);
+        if (Build.VERSION.SDK_INT > 24) {
+            log.info("Sending broadcast RestartLocationService");
+            Intent broadcastIntent = new Intent("com.mediabeef.bgloc.RestartLocationService");
+            sendBroadcast(broadcastIntent);
+        }
     }
 
     @Override
@@ -452,7 +454,7 @@ public class LocationService extends Service {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    stopSelf();//delayed Stop, otherwise the notification will go away
+                    stopRecording();//delayed Stop, otherwise the notification will go away
                 }
             }, 6000);
 
@@ -460,7 +462,7 @@ public class LocationService extends Service {
                 log.info("________this is for Blackberry 6.0.1");
                 NotificationCompat.Builder builder_v23 = new NotificationCompat.Builder(mContext)
                         .setSmallIcon(android.R.drawable.ic_menu_mylocation)
-                        .setContentTitle("ommuter Connections Flextrip")
+                        .setContentTitle("Commuter Connections Flextrip")
                         .setContentText("Timeout reached. Your trip is not being logged anymore")
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         .setContentIntent(pendingIntent)
@@ -495,7 +497,7 @@ public class LocationService extends Service {
         //commenting out is_endof trip
         if (location.is_end_of_trip) {
             StaticHelper.is_end_of_trip_static = true;
-            log.info("_________LM stops itself due to end_of_trip reached. Location:");
+            log.info("_________LM stops recording due to end_of_trip reached. Location:");
             log.info("latitude: {}", location.getLatitude());
             log.info("config: {}", config.getEnd_lat());
 
@@ -530,16 +532,6 @@ public class LocationService extends Service {
             builder.setContentIntent(pendingIntent);
 
             mNoti = builder.build();
-
-            mNotificationManager.notify(this.notifyID, mNoti);
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    stopSelf();//delayed Stop, otherwise the notification will go away
-                }
-            }, 6000);
-
             if (android.os.Build.VERSION.SDK_INT == 23){//this is for Blackberry 6.0.1
                 log.info("________this is for Blackberry 6.0.1");
                 NotificationCompat.Builder builder_v23 = new NotificationCompat.Builder(mContext)
@@ -552,6 +544,15 @@ public class LocationService extends Service {
                 NotificationManagerCompat notificationManager = NotificationManagerCompat.from(mContext);
                 notificationManager.notify(1346, builder_v23.build());
             }
+
+            mNotificationManager.notify(this.notifyID, mNoti);
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    stopRecording();//delayed Stop, otherwise the notification will go away
+                }
+            }, 6000);
         } else {
             msg = Message.obtain(null, MSG_LOCATION_UPDATE);
             msg.setData(bundle);

@@ -179,12 +179,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter implements Uploadin
 
     public void uploadListener(int progress) {
         log.debug("Syncing progress: {} updatedAt: {}", progress, System.currentTimeMillis());
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext());
+        /*NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext());
         builder.setOngoing(true);
         builder.setContentTitle("Syncing locations");
         builder.setContentText("Sync in progress");
         builder.setSmallIcon(android.R.drawable.ic_dialog_info);
         builder.setProgress(100, progress, false);
-        notifyManager.notify(NOTIFICATION_ID, builder.build());
+        notifyManager.notify(NOTIFICATION_ID, builder.build());*/
     }
 }

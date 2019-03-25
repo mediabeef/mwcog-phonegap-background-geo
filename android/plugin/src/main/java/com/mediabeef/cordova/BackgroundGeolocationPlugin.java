@@ -673,6 +673,17 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
         return is_service_running;
     }
 
+    public JSONArray getIsServiceRecording(){
+        JSONArray is_service_recording = new JSONArray();
+        boolean is_service_running = helpers.isServiceRunning(getContext(), LocationService.class);
+        if (!is_service_running) {
+            is_service_recording.put(false);
+            return is_service_recording;
+        }
+        //todob implement this
+        return is_service_recording;
+    }
+
     public static boolean isLocationEnabled(Context context) throws SettingNotFoundException {
         int locationMode = 0;
         String locationProviders;
