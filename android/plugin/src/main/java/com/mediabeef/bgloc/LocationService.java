@@ -456,7 +456,7 @@ public class LocationService extends Service {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    stopRecording();//delayed Stop, otherwise the notification will go away
+                    stopSelf();//delayed Stop, otherwise the notification will go away
                 }
             }, 6000);
 
