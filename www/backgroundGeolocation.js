@@ -151,6 +151,16 @@ var backgroundGeolocation = {
             'getIsServiceRunning', []);
     },
 
+    getIsServiceRecording: function(success, failure) {
+        if (typeof(success) !== 'function') {
+            throw 'BackgroundGeolocation#getIsServiceRecording requires a success callback';
+        }
+        exec(success,
+            failure || emptyFnc,
+            'BackgroundGeolocation',
+            'getIsServiceRecording', []);
+    },
+
     resetIsEndOfTrip: function() {
         exec(emptyFnc,
             emptyFnc,

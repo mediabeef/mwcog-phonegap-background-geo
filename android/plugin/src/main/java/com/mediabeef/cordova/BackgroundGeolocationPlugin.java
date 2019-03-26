@@ -63,6 +63,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
     public static final String ACTION_GET_ALL_LOCATIONS = "getLocations";
     public static final String ACTION_GET_IS_END_OF_TRIP = "getIsEndOfTrip";
     public static final String ACTION_GET_IS_SERVICE_RUNNING = "getIsServiceRunning";
+    public static final String ACTION_GET_IS_SERVICE_RECORDING = "getIsServiceRecording";
     public static final String ACTION_RESET_IS_END_OF_TRIP = "resetIsEndOfTrip";
     public static final String ACTION_GET_VALID_LOCATIONS = "getValidLocations";
     public static final String ACTION_DELETE_LOCATION = "deleteLocation";
@@ -423,6 +424,14 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
             });
 
             return true;
+        }  else if (ACTION_GET_IS_SERVICE_RECORDING.equals(action)) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    callbackContext.success(getIsServiceRecording());
+                }
+            });
+
+            return true;
         } else if (ACTION_RESET_IS_END_OF_TRIP.equals(action)) {
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
@@ -588,6 +597,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
             locationServiceIntent.addFlags(Intent.FLAG_FROM_BACKGROUND);
             // start service to keep service running even if no clients are bound to it
             activity.startService(locationServiceIntent);
+            StaticHelper.is_recording = true;
         }
     }
 
@@ -596,6 +606,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
             log.info("Stopping bg service");
             Activity activity = getActivity();
             activity.stopService(new Intent(activity, LocationService.class));
+            StaticHelper.is_recording = false;
         }
     }
 
@@ -675,12 +686,8 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
 
     public JSONArray getIsServiceRecording(){
         JSONArray is_service_recording = new JSONArray();
-        boolean is_service_running = helpers.isServiceRunning(getContext(), LocationService.class);
-        if (!is_service_running) {
-            is_service_recording.put(false);
-            return is_service_recording;
-        }
-        //todob implement this
+        boolean is_service_recording_bool = helpers.isServiceRecording(getContext(), LocationService.class);
+        is_service_recording.put(is_service_recording_bool);
         return is_service_recording;
     }
 

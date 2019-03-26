@@ -363,10 +363,12 @@ public class LocationService extends Service {
 
     public void startRecording() {
         provider.startRecording();
+        StaticHelper.is_recording = true;
     }
 
     public void stopRecording() {
         provider.stopRecording();
+        StaticHelper.is_recording = false;
     }
 
     public boolean isOSCustomAndroid() {

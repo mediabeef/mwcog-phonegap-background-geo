@@ -33,8 +33,7 @@ public class Helpers {
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (serviceClass.getName().equals(service.service.getClassName())) {
-                //"getIsServiceRunning: true
-
+                return StaticHelper.is_recording;
             }
         }
         return false;
