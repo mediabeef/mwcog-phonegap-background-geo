@@ -57,5 +57,9 @@ typedef NSUInteger BGOperationMode;
 - (void) onAppTerminate;
 - (void) startMonitoringLocationWhenSuspended;
 - (void) notify:(NSString*)message;
+- (BOOL) getIsEndOfTrip;
+- (void) resetIsEndOfTrip;
+- (BOOL) getIsServiceRunning;
+- (BOOL) getIsServiceRecording;
 
 @end

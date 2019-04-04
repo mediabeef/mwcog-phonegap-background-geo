@@ -202,6 +202,39 @@
     }];
 }
 
+- (void) getIsEndOfTrip:(CDVInvokedUrlCommand *)command
+{
+    [self.commandDelegate runInBackground:^{
+        BOOL is_end_of_trip = [manager getIsEndOfTrip];
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:is_end_of_trip];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    }];
+}
+
+- (void) resetIsEndOfTrip
+{
+    [manager resetIsEndOfTrip];
+}
+
+- (void) getIsServiceRunning:(CDVInvokedUrlCommand *)command
+{
+    [self.commandDelegate runInBackground:^{
+        BOOL is_service_running = [manager getIsServiceRunning];
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:is_service_running];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    }];
+}
+
+- (void) getIsServiceRecording:(CDVInvokedUrlCommand *)command
+{
+    [self.commandDelegate runInBackground:^{
+        BOOL is_service_recording = [manager getIsServiceRecording];
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:is_service_recording];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    }];
+}
+
+
 - (void) getValidLocations:(CDVInvokedUrlCommand*)command
 {
     [self.commandDelegate runInBackground:^{

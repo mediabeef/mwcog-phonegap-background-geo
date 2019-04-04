@@ -28,6 +28,8 @@
 #define acquiringLocationSound  1103
 #define acquiredLocationSound   1052
 #define locationErrorSound      1073
+//#define TIMEOUT_SELF_KILL       60 //ttodob debug 60 seconds
+#define TIMEOUT_SELF_KILL       14400 //14400 seconds = 4 hours
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
 #define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
@@ -56,6 +58,7 @@ enum {
     BOOL isAcquiringSpeed;
     BOOL hasConnectivity;
     BOOL isAppTerminating;
+    BOOL is_end_of_trip;
 
     BGOperationMode operationMode;
     NSDate *aquireStartTime;
@@ -79,6 +82,7 @@ enum {
 
     LocationUploader *uploader;
     Reachability *reach;
+    NSDate *start_recording_ts;
 }
 
 
@@ -130,7 +134,8 @@ enum {
     //    shouldStart = NO;
     stationaryRegion = nil;
     isAppTerminating = NO;
-
+    is_end_of_trip = NO;
+    start_recording_ts = [NSDate date];
     return self;
 }
 
@@ -167,8 +172,18 @@ enum {
     if ([config hasSyncUrl] && uploader == nil) {
         uploader = [[LocationUploader alloc] init];
     }
+    is_end_of_trip = NO;
 
     return YES;
+}
+
+/**
+ * return current config
+ *
+*/
+- (Config*) getConfig
+{
+    return _config;
 }
 
 /**
@@ -223,7 +238,8 @@ enum {
 
     isStarted = YES;
     [self switchMode:FOREGROUND];
-
+    is_end_of_trip = NO;
+    start_recording_ts = [NSDate date];
     return YES;
 }
 
@@ -353,6 +369,26 @@ enum {
     return dictionaryLocations;
 }
 
+- (BOOL) getIsEndOfTrip
+{
+    return is_end_of_trip;
+}
+
+- (void) resetIsEndOfTrip
+{
+    is_end_of_trip = NO;
+}
+
+- (BOOL) getIsServiceRunning
+{
+    return isStarted;
+}
+
+- (BOOL) getIsServiceRecording
+{
+    return isUpdatingLocation;
+}
+
 - (NSArray<NSMutableDictionary*>*) getValidLocations
 {
     SQLiteLocationDAO* locationDAO = [SQLiteLocationDAO sharedInstance];
@@ -443,20 +479,27 @@ enum {
                     [reach startNotifier];
                 }
             }
+            NSString *syncUrl = [_config hasSyncUrl] ? _config.syncUrl : _config.url;
+            [uploader sync:syncUrl onLocationThreshold:_config.syncThreshold withHttpHeaders:_config.httpHeaders];
             //brian3t now check if location is close to end_lat end_lng. If it does, stop BP
             if (location.is_end_of_trip)
             {
                 DDLogInfo(@"LM stops itself due to end_of_trip reached. Location:");
-                DDLogInfo([location.latitude stringValue]);
+                DDLogInfo(@"%@", [location.latitude stringValue]);
                 DDLogInfo(@"Config: ");
                 NSString *end_lat_str = [NSString stringWithFormat:@"%lf", _config.end_lat];
-                DDLogInfo(end_lat_str);
-
+                DDLogInfo(@"%@", end_lat_str);
+                is_end_of_trip = YES;
                 [self notify:@"Congratulations! Your trip has been verified!'"];
                 [self stop:nil];
             }
-            NSString *syncUrl = [_config hasSyncUrl] ? _config.syncUrl : _config.url;
-            [uploader sync:syncUrl onLocationThreshold:_config.syncThreshold withHttpHeaders:_config.httpHeaders];
+            //now check for TIMEOUT_SELF_KILL and compare with start_recording_ts
+            NSInteger interval_since_start = 0 - [start_recording_ts timeIntervalSinceNow];
+            if (interval_since_start > TIMEOUT_SELF_KILL){
+                //here we kill self
+                [self notify:@"Your trip has timed out. Please start another flex time trip."];
+                [self stopUpdatingLocation];
+            }
         });
     }
 
