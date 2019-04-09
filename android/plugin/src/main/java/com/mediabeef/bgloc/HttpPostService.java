@@ -51,6 +51,33 @@ public class HttpPostService {
         return conn.getResponseCode();
     }
 
+    public static int getJSON(String url, Object json, Map headers) throws IOException {
+        String jsonString = json.toString();
+        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Content-Type", "application/json");
+        Iterator<Map.Entry<String, String>> it = headers.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, String> pair = it.next();
+            conn.setRequestProperty(pair.getKey(), pair.getValue());
+        }
+        here we do the same for the json object
+        OutputStreamWriter os = null;
+        try {
+            os = new OutputStreamWriter(conn.getOutputStream());
+            os.write(json.toString());
+
+        } finally {
+            if (os != null) {
+                os.flush();
+                os.close();
+            }
+        }
+
+        return conn.getResponseCode();
+    }
+
+
     public static int postFile(String url, File file, Map headers, UploadingCallback callback) throws IOException {
         HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
 

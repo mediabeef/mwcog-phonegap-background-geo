@@ -38,13 +38,24 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+
 public class LocationService extends Service {
+    private static final String FLEX_TRIP_API_URL ="http://mwcog2.mediabeef.com/mwcog/verifiedtripservicecontrol";
 
     /**
      * Keeps track of all current registered clients.
@@ -655,12 +666,20 @@ public class LocationService extends Service {
         protected Boolean doInBackground(BackgroundLocation... locations) {
             log.debug("Executing PostLocationTask#doInBackground");
             JSONArray jsonLocations = new JSONArray();
+            JSONObject flexApiJsonLocation = new JSONObject();//build flex api location payload
             for (BackgroundLocation location : locations) {
                 try {
                     JSONObject jsonLocation = location.toJSONObject();
                     //here append commuter_id to post back
                     jsonLocation.put("commuter_id", config.getCommuter_id());
                     jsonLocations.put(jsonLocation);
+
+                    flexApiJsonLocation.put("action", "heartbeatVerifiedTrip");
+                    flexApiJsonLocation.put("current_lat", location.getLatitude());
+                    flexApiJsonLocation.put("current_lng", location.getLongitude());
+                    flexApiJsonLocation.put("tripId", config.getTrip_id());
+                    flexApiJsonLocation.put("end_lat", config.getEnd_lat());
+                    flexApiJsonLocation.put("end_lng", config.getEnd_lng());
                 } catch (JSONException e) {
                     log.warn("Location to json failed: {}", location.toString());
                     return false;
@@ -683,6 +702,25 @@ public class LocationService extends Service {
                 log.warn("Server error while posting locations responseCode: {}", responseCode);
                 return false;
             }
+
+            // now sending to mediabeef API
+            url = FLEX_TRIP_API_URL;
+            log.debug("Posting json to url: {} headers: {}", url, config.getHttpHeaders());
+
+            try {
+                responseCode = HttpPostService.getJSON(url, flexApiJsonLocation, config.getHttpHeaders());
+            } catch (Exception e) {
+                hasConnectivity = isNetworkAvailable();
+                log.warn("Error while (get)posting flex api locations: {}", e.getMessage());
+                return false;
+            }
+
+            if (responseCode != HttpURLConnection.HTTP_OK) {
+                log.warn("Server error while (get)posting flex api locations responseCode: {}", responseCode);
+                return false;
+            }
+
+        // now sending to mediabeef API end
 
             for (BackgroundLocation location : locations) {
                 Long locationId = location.getLocationId();
