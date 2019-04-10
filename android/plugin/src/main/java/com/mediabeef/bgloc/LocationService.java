@@ -667,23 +667,18 @@ public class LocationService extends Service {
             log.debug("Executing PostLocationTask#doInBackground");
             JSONArray jsonLocations = new JSONArray();
             JSONObject flexApiJsonLocation = new JSONObject();//build flex api location payload
+            BackgroundLocation last_location = new BackgroundLocation();
             for (BackgroundLocation location : locations) {
                 try {
                     JSONObject jsonLocation = location.toJSONObject();
                     //here append commuter_id to post back
                     jsonLocation.put("commuter_id", config.getCommuter_id());
                     jsonLocations.put(jsonLocation);
-
-                    flexApiJsonLocation.put("action", "heartbeatVerifiedTrip");
-                    flexApiJsonLocation.put("current_lat", location.getLatitude());
-                    flexApiJsonLocation.put("current_lng", location.getLongitude());
-                    flexApiJsonLocation.put("tripId", config.getTrip_id());
-                    flexApiJsonLocation.put("end_lat", config.getEnd_lat());
-                    flexApiJsonLocation.put("end_lng", config.getEnd_lng());
                 } catch (JSONException e) {
                     log.warn("Location to json failed: {}", location.toString());
                     return false;
                 }
+                last_location = location;
             }
 
             String url = config.getUrl();
@@ -708,7 +703,7 @@ public class LocationService extends Service {
             log.debug("Posting json to url: {} headers: {}", url, config.getHttpHeaders());
 
             try {
-                responseCode = HttpPostService.getJSON(url, flexApiJsonLocation, config.getHttpHeaders());
+                responseCode = HttpPostService.getJSON(url, last_location, config.getHttpHeaders(), config);
             } catch (Exception e) {
                 hasConnectivity = isNetworkAvailable();
                 log.warn("Error while (get)posting flex api locations: {}", e.getMessage());
@@ -719,8 +714,7 @@ public class LocationService extends Service {
                 log.warn("Server error while (get)posting flex api locations responseCode: {}", responseCode);
                 return false;
             }
-
-        // now sending to mediabeef API end
+            // now sending to mediabeef API end
 
             for (BackgroundLocation location : locations) {
                 Long locationId = location.getLocationId();
