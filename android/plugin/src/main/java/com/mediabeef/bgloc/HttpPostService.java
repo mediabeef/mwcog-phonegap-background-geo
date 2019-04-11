@@ -5,6 +5,7 @@ import android.os.Build;
 import android.util.Log;
 
 import com.mediabeef.bgloc.data.BackgroundLocation;
+import com.mediabeef.logging.LoggerManager;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -25,7 +26,6 @@ import java.net.HttpURLConnection;
 import java.io.OutputStreamWriter;
 
 public class HttpPostService {
-
     public static int postJSON(String url, Object json, Map headers) throws IOException {
         String jsonString = json.toString();
         HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
@@ -65,6 +65,13 @@ public class HttpPostService {
      * @throws IOException
      */
     public static int getJSON(String url, BackgroundLocation location, Map headers, Config config) throws IOException {
+        //here we do the same for the json object
+        url += "?action=heartbeatVerifiedTrip";
+        url += "&current_lat=" + String.valueOf(location.getLatitude());
+        url += "&current_lng=" + String.valueOf(location.getLongitude());
+        url += "&tripId=" + config.getTrip_id();
+        url += "&endTrip=" + String.valueOf(location.is_end_of_trip ? 1 : 0);
+
         HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Content-Type", "application/json");
@@ -73,14 +80,11 @@ public class HttpPostService {
             Map.Entry<String, String> pair = it.next();
             conn.setRequestProperty(pair.getKey(), pair.getValue());
         }
-        //here we do the same for the json object
-        conn.setRequestProperty("action", "heartbeatVerifiedTrip");
-        conn.setRequestProperty("current_lat", String.valueOf(location.getLatitude()));
-        conn.setRequestProperty("current_lng", String.valueOf(location.getLongitude()));
-        conn.setRequestProperty("tripId", config.getTrip_id());
-        conn.setRequestProperty("end_trip", String.valueOf(location.is_end_of_trip ? 1 : 0));
+
         int response_code = conn.getResponseCode();
         conn.disconnect();
+        org.slf4j.Logger log = LoggerManager.getLogger(LocationService.class);
+        log.debug("conn " + conn.toString() + " | response code " + String.valueOf(response_code));
         return response_code;
     }
 
