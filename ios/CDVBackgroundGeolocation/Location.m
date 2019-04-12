@@ -275,6 +275,50 @@ enum {
     return NO;
 }
 
+/**
+ Post location to production API using GET
+ **/
+- (BOOL) getPost:(NSString*)url withHttpHeaders:(NSMutableDictionary*)httpHeaders withConfig:(Config*)config withLocation:(Location*)location error:(NSError * __autoreleasing *)outError
+{
+//    NSArray *locations = [[NSArray alloc] initWithObjects:[self toDictionaryWithExtras], nil];
+//    //    NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData: data options: NSJSONReadingMutableContainers error: &e];
+//    NSData *data = [NSJSONSerialization dataWithJSONObject:locations options:0 error:outError];
+//    if (!data) {
+//        return NO;
+//    }
+//
+//    NSString *jsonStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    url = [url stringByAppendingString:@"?action=heartbeatVerifiedTrip"];
+    url = [url stringByAppendingString:@"&current_lat="];
+    url = [url stringByAppendingString:[location.latitude stringValue]];
+    url = [url stringByAppendingString:@"&current_lng="];
+    url = [url stringByAppendingString:[location.longitude stringValue]];
+    url = [url stringByAppendingString:@"&tripId="];
+    url = [url stringByAppendingString:config.trip_id];
+    url = [url stringByAppendingString:@"&endTrip="];
+    url = [url stringByAppendingString:(location.is_end_of_trip ? @"1" : @"0")];
+
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPMethod:@"GET"];
+    if (httpHeaders != nil) {
+        for(id key in httpHeaders) {
+            id value = [httpHeaders objectForKey:key];
+            [request addValue:value forHTTPHeaderField:key];
+        }
+    }
+    
+    // Fire http request
+    NSHTTPURLResponse* urlResponse = nil;
+    [Location sendSynchronousRequest:request returningResponse:&urlResponse error:outError];
+    
+    if (*outError == nil && [urlResponse statusCode] == 200) {
+        return YES;
+    }
+    
+    return NO;
+}
+
 /***
  * Synchronous method to perform http request
  */

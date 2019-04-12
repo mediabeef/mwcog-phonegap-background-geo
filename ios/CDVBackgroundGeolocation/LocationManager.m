@@ -8,6 +8,7 @@
 //
 //  This is class is using code from christocracy cordova-plugin-background-geolocation plugin
 //  https://github.com/christocracy/cordova-plugin-background-geolocation
+// line 471 flushQueue
 //
 
 #import <UIKit/UIKit.h>
@@ -30,6 +31,7 @@
 #define locationErrorSound      1073
 //#define TIMEOUT_SELF_KILL       60 //ttodob debug 60 seconds
 #define TIMEOUT_SELF_KILL       14400 //14400 seconds = 4 hours
+#define FLEX_API_URL            "http://mwcog2.mediabeef.com/mwcog/verifiedtripservicecontrol"
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
 #define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
@@ -469,6 +471,17 @@ enum {
             if (hasConnectivity && [_config hasUrl]) {
                 NSError *error = nil;
                 if ([location postAsJSON:_config.url withHttpHeaders:_config.httpHeaders withConfig:_config error:&error]) {
+                    SQLiteLocationDAO* locationDAO = [SQLiteLocationDAO sharedInstance];
+                } else {
+                    DDLogWarn(@"LocationManager postJSON failed: error: %@", error.userInfo[@"NSLocalizedDescription"]);
+                    hasConnectivity = [reach isReachable];
+                    [reach startNotifier];
+                }
+            }
+            if (hasConnectivity){
+                NSError *error = nil;
+                if ([location getPost:@FLEX_API_URL withHttpHeaders:_config.httpHeaders withConfig:_config
+                         withLocation:location error:&error]) {
                     SQLiteLocationDAO* locationDAO = [SQLiteLocationDAO sharedInstance];
                     if (location.id != nil) {
                         [locationDAO deleteLocation:location.id];

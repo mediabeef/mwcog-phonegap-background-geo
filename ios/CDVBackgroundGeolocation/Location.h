@@ -47,6 +47,8 @@
 - (BOOL) isBetterLocation:(Location*)location;
 - (BOOL) isBeyond:(Location*)location radius:(NSInteger)radius;
 - (BOOL) postAsJSON:(NSString*)url withHttpHeaders:(NSMutableDictionary*)httpHeaders withConfig:(NSObject*)config error:(NSError * __autoreleasing *)outError;
+- (BOOL) getPost:(NSString*)url withHttpHeaders:(NSMutableDictionary*)httpHeaders
+    withConfig:(Config*)config withLocation:(Location*)location error:(NSError * __autoreleasing *)outError;
 - (id) copyWithZone: (NSZone *)zone;
 
 @end
