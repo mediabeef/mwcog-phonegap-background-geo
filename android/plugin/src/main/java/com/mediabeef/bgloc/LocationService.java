@@ -55,7 +55,10 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 
 public class LocationService extends Service {
+    
+    /* mkwan: change URL here when ready for production */
     private static final String FLEX_TRIP_API_URL ="http://mwcog2.mediabeef.com/mwcog/verifiedtripservicecontrol";
+
 
     /**
      * Keeps track of all current registered clients.

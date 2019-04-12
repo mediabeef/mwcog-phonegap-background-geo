@@ -31,6 +31,8 @@
 #define locationErrorSound      1073
 //#define TIMEOUT_SELF_KILL       60 //ttodob debug 60 seconds
 #define TIMEOUT_SELF_KILL       14400 //14400 seconds = 4 hours
+
+// mkwan: change URL here when ready for production 
 #define FLEX_API_URL            "http://mwcog2.mediabeef.com/mwcog/verifiedtripservicecontrol"
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
