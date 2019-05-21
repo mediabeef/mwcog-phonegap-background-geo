@@ -1,3 +1,8 @@
+b3t note:
+BGL.java:716 - toJsonObj()
+LocationService.java -> PostLocationTask - AsyncTask
+  PostLocationTask -> doInBackground 
+
 For development, cordova lib is required. You can copy it from any cordova project.
 
 1. copy content of cordova lib into `CordovaLib`
