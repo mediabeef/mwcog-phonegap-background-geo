@@ -33,7 +33,9 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:+'
     compile 'com.android.support:support-v4:+'
     compile 'com.github.tony19:logback-android-core:1.1.1-4'
-    compile 'com.github.tony19:logback-android-classic:1.1.1-4'
+    compile ('com.github.tony19:logback-android-classic:1.1.1-4') {
+      exclude group: 'com.google.android', module: 'android'
+    }
     compile 'org.slf4j:slf4j-api:1.7.6'
     compile project(':CordovaLib')
 }

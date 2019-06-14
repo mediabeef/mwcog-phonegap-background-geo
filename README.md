@@ -487,6 +487,8 @@ There is nice cordova plugin [cordova-plugin-geofence](https://github.com/cowbel
 
 See [CHANGES.md](/CHANGES.md)
 
+Origin: https://github.com/saralweb/cordova-plugin-background-geolocation
+
 ## Licence ##
 
 [Apache License](http://www.apache.org/licenses/LICENSE-2.0)
