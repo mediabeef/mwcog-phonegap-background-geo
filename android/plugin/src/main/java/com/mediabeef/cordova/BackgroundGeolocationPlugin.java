@@ -647,14 +647,14 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+   /* @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private Intent registerLocationModeChangeReceiver (CallbackContext callbackContext) {
         if (locationModeChangeCallbackContext != null) {
             unregisterLocationModeChangeReceiver();
         }
         locationModeChangeCallbackContext = callbackContext;
         return getContext().registerReceiver(locationModeChangeReceiver, new IntentFilter(LocationManager.MODE_CHANGED_ACTION));
-    }
+    }*/
 
     private void unregisterLocationModeChangeReceiver () {
         if (locationModeChangeCallbackContext == null) { return; }
