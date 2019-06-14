@@ -647,7 +647,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     private Intent registerLocationModeChangeReceiver (CallbackContext callbackContext) {
         if (locationModeChangeCallbackContext != null) {
             unregisterLocationModeChangeReceiver();
