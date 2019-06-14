@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d4220125-f8fe-464f-a2bc-28bbcdda6e03" name="Default Changelist" comment="" />
+    <list default="true" id="d4220125-f8fe-464f-a2bc-28bbcdda6e03" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,20 +31,34 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/android/plugin/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="433">
-              <caret line="34" column="37" selection-start-line="34" selection-start-column="37" selection-end-line="34" selection-end-column="37" />
+            <state relative-caret-position="583">
+              <caret line="44" column="1" selection-start-line="44" selection-start-column="1" selection-end-line="44" selection-end-column="1" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/android/build.gradle">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/android/logtofile.gradle">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="45">
+              <caret line="3" selection-start-line="3" selection-end-line="3" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/cordova/BackgroundGeolocationPlugin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="645">
-              <caret line="591" selection-start-line="591" selection-end-line="591" />
+            <state relative-caret-position="402">
+              <caret line="663" column="5" lean-forward="true" selection-start-line="663" selection-start-column="5" selection-end-line="663" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -72,6 +88,9 @@
       <find>get</find>
       <find>depend</find>
       <find>dependencies</find>
+      <find>bac</find>
+      <find>Build.VERSION_CODES</find>
+      <find>registerLocationModeChangeReceiver</find>
     </findStrings>
     <replaceStrings>
       <replace>mediabeef</replace>
@@ -103,12 +122,13 @@
         <option value="$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/bgloc/data/sqlite/SQLiteConfigurationContract.java" />
         <option value="$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/bgloc/data/sqlite/SQLiteConfigurationDAO.java" />
         <option value="$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/bgloc/data/BackgroundLocation.java" />
-        <option value="$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/cordova/BackgroundGeolocationPlugin.java" />
         <option value="$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/bgloc/LocationService.java" />
         <option value="$PROJECT_DIR$/www/backgroundGeolocation.js" />
         <option value="$PROJECT_DIR$/plugin.xml" />
         <option value="$PROJECT_DIR$/ios/README.md" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/cordova/BackgroundGeolocationPlugin.java" />
+        <option value="$PROJECT_DIR$/android/logtofile.gradle" />
         <option value="$PROJECT_DIR$/android/plugin/build.gradle" />
       </list>
     </option>
@@ -457,7 +477,28 @@
       <option name="project" value="LOCAL" />
       <updated>1560486556698</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="try fixing kitkat">
+      <created>1560486801772</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1560486801772</updated>
+    </task>
+    <task id="LOCAL-00025" summary="try fixing kitkat">
+      <created>1560486971506</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1560486971506</updated>
+    </task>
+    <task id="LOCAL-00026" summary="try fixing kitkat - add compat 1.6">
+      <created>1560487148069</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1560487148069</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TodoView">
@@ -582,12 +623,12 @@
     <MESSAGE value="Noti for Blackberry" />
     <MESSAGE value="Implement getIsServiceRecording" />
     <MESSAGE value="fix old dependencies" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix old dependencies" />
+    <MESSAGE value="try fixing kitkat" />
+    <MESSAGE value="try fixing kitkat - add compat 1.6" />
+    <option name="LAST_COMMIT_MESSAGE" value="try fixing kitkat - add compat 1.6" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/platforms/android/.gitignore" />
-    <entry file="file://$PROJECT_DIR$/platforms/android/src/com/saralweb/bgloc/Config.java" />
     <entry file="file://$PROJECT_DIR$/platforms/android/src/com/saralweb/bgloc/data/sqlite/SQLiteConfigurationDAO.java" />
     <entry file="file://$PROJECT_DIR$/platforms/android/src/com/saralweb/bgloc/data/sqlite/SQLiteLocationContract.java" />
     <entry file="file://$PROJECT_DIR$/platforms/android/src/com/saralweb/bgloc/data/sqlite/SQLiteLocationDAO.java" />
@@ -636,9 +677,6 @@
           <caret line="21" column="146" selection-start-line="21" selection-start-column="146" selection-end-line="21" selection-end-column="146" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/android/settings.gradle">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
@@ -804,17 +842,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/android/plugin/build.gradle">
+    <entry file="file://$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/cordova/BackgroundGeolocationPlugin.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="433">
-          <caret line="34" column="37" selection-start-line="34" selection-start-column="37" selection-end-line="34" selection-end-column="37" />
+        <state relative-caret-position="402">
+          <caret line="663" column="5" lean-forward="true" selection-start-line="663" selection-start-column="5" selection-end-line="663" selection-end-column="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/cordova/BackgroundGeolocationPlugin.java">
+    <entry file="file://$PROJECT_DIR$/android/build.gradle">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/android/settings.gradle">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/android/logtofile.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="645">
-          <caret line="591" selection-start-line="591" selection-end-line="591" />
+        <state relative-caret-position="45">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/android/plugin/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="583">
+          <caret line="44" column="1" selection-start-line="44" selection-start-column="1" selection-end-line="44" selection-end-column="1" />
         </state>
       </provider>
     </entry>
