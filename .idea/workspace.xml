@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d4220125-f8fe-464f-a2bc-28bbcdda6e03" name="Default Changelist" comment="">
+    <list default="true" id="d4220125-f8fe-464f-a2bc-28bbcdda6e03" name="Default Changelist" comment="- Switch to android x (required by Android 11)&#10;- Added new endpoints: getBgAnd11 and setBgAnd11">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/bgloc/LocationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/bgloc/LocationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/bgloc/data/BackgroundLocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/bgloc/data/BackgroundLocation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/bgloc/sync/SyncAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/bgloc/sync/SyncAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/cordova/BackgroundGeolocationPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/plugin/src/main/java/com/mediabeef/cordova/BackgroundGeolocationPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/plugin.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -459,7 +456,14 @@
       <option name="project" value="LOCAL" />
       <updated>1560487148069</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="- Switch to android x (required by Android 11)&#10;- Added new endpoints: getBgAnd11 and setBgAnd11">
+      <created>1609613761544</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1609613761544</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TodoView">
@@ -547,7 +551,6 @@
         <todo-filter name="Todo Brian" />
       </TodoPanelSettings>
     </option>
-    <MESSAGE value="testing BK Saralweb" />
     <MESSAGE value="add platform folder" />
     <MESSAGE value="add platform folder - trying to edi android code" />
     <MESSAGE value="modifying platform android src" />
@@ -572,7 +575,8 @@
     <MESSAGE value="fix old dependencies" />
     <MESSAGE value="try fixing kitkat" />
     <MESSAGE value="try fixing kitkat - add compat 1.6" />
-    <option name="LAST_COMMIT_MESSAGE" value="try fixing kitkat - add compat 1.6" />
+    <MESSAGE value="- Switch to android x (required by Android 11)&#10;- Added new endpoints: getBgAnd11 and setBgAnd11" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Switch to android x (required by Android 11)&#10;- Added new endpoints: getBgAnd11 and setBgAnd11" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="editorHistoryManager">
