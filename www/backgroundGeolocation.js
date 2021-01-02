@@ -100,6 +100,32 @@ var backgroundGeolocation = {
     },
 
     /**
+     * Returns current bg loc permission
+     */
+    getBgAnd11: function(success, failure) {
+        if (typeof(success) !== 'function') {
+             throw 'BackgroundGeolocation#getBgAnd11 requires a success callback';
+        }
+        exec(success,
+            failure || emptyFnc,
+            'BackgroundGeolocation',
+            'getBgAnd11', []);
+    },
+
+    /**
+     * Set bg loc permission; needed for And 11
+     */
+    setBgAnd11: function(success, failure) {
+        if (typeof(success) !== 'function') {
+             throw 'BackgroundGeolocation#setBgAnd11 requires a success callback';
+        }
+        exec(success,
+            failure || emptyFnc,
+            'BackgroundGeolocation',
+            'setBgAnd11', []);
+    },
+
+    /**
      * Add a stationary-region listener.  Whenever the devices enters "stationary-mode", your #success callback will be executed with #location param containing #radius of region
      * @param {Function} success
      * @param {Function} failure [optional] NOT IMPLEMENTED
