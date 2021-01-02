@@ -41,11 +41,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import androidx.core.content.ContextCompat;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 
 public class BackgroundGeolocationPlugin extends CordovaPlugin {
 
@@ -56,6 +57,8 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
     public static final String ACTION_LOCATION_ENABLED_CHECK = "isLocationEnabled";
     public static final String ACTION_SHOW_LOCATION_SETTINGS = "showLocationSettings";
     public static final String ACTION_SHOW_APP_SETTINGS = "showAppSettings";
+    public static final String ACTION_SET_BG_AND_11 = "setBgAnd11";
+    public static final String ACTION_GET_BG_AND_11 = "getBgAnd11";
     public static final String ACTION_ADD_MODE_CHANGED_LISTENER = "watchLocationMode";
     public static final String ACTION_REMOVE_MODE_CHANGED_LISTENER = "stopWatchingLocationMode";
     public static final String ACTION_ADD_STATIONARY_LISTENER = "addStationaryRegionListener";
@@ -72,8 +75,20 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
     public static final String ACTION_GET_LOG_ENTRIES = "getLogEntries";
 
     public static final int START_REQ_CODE = 0;
+    /**
+     * Id to identify a camera permission request.
+     */
+    private static final int REQUEST_BG = 0;
     public static final int PERMISSION_DENIED_ERROR_CODE = 2;
-    public static final String[] permissions = { Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION };
+    public static final String[] permissions;
+
+    static {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            permissions = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION};
+        } else {
+            permissions = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
+        }
+    }
 
     /** Messenger for communicating with the service. */
     private Messenger mService = null;
@@ -366,6 +381,31 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
         } else if (ACTION_SHOW_APP_SETTINGS.equals(action)) {
             showAppSettings();
             // TODO: call success/fail callback
+
+            return true;
+        } else if (ACTION_SET_BG_AND_11.equals(action)) {
+            try {
+                String bg11and_result = setBgAnd11();
+                if (bg11and_result != null) {
+                    callbackContext.success(bg11and_result);
+                } else {
+                    callbackContext.success();
+                }
+            } catch (Exception e) {
+                log.error("BG and 11 failed: {}", e.getMessage());
+                callbackContext.error("BG And 11 failed");
+            }
+
+            return true;
+        } else if (ACTION_GET_BG_AND_11.equals(action)) {
+            try {
+                Boolean bg11and_result = getBgAnd11();
+                String s_bg11and_result = bg11and_result.toString();
+                callbackContext.success(s_bg11and_result);
+            } catch (Exception e) {
+                log.error("get BG and 11 failed: {}", e.getMessage());
+                callbackContext.error("get BG And 11 failed");
+            }
 
             return true;
         } else if (ACTION_ADD_MODE_CHANGED_LISTENER.equals(action)) {
@@ -676,6 +716,31 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
         getContext().startActivity(intent);
+    }
+
+    /**
+     * Check for bg location permission. If not allowed, show setting page for user to choose
+     * @return String
+     */
+    public String setBgAnd11(){
+        if (Build.VERSION.SDK_INT < 30) return "version less than 30, nothing to do";
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED)
+            return "permission granted";
+        String[] myStringArray = new String[1];
+        myStringArray[0] = Manifest.permission.ACCESS_BACKGROUND_LOCATION;
+        androidx.core.app.ActivityCompat.requestPermissions(getActivity(),myStringArray, REQUEST_BG);
+
+        return "Requested";
+    }
+
+
+/**
+     * Only getting bg location permission. If not allowed, show setting page for user to choose
+     * @return boolean
+     */
+    public Boolean getBgAnd11(){
+        if (Build.VERSION.SDK_INT < 30) return true;
+        return ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 
     public JSONArray getIsServiceRunning(){

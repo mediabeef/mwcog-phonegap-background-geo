@@ -5,7 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v4.util.TimeUtils;
+import androidx.core.util.TimeUtils;
 import com.mediabeef.bgloc.Config;
 import com.mediabeef.bgloc.LocationService;
 import com.mediabeef.logging.LoggerManager;
