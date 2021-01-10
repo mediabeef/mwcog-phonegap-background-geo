@@ -25,6 +25,7 @@ import android.os.*;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.text.TextUtils;
+import android.widget.Toast;
 import com.mediabeef.bgloc.*;
 import com.mediabeef.bgloc.data.BackgroundLocation;
 import com.mediabeef.bgloc.data.ConfigurationDAO;
@@ -47,6 +48,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import android.app.AlertDialog;
 
 public class BackgroundGeolocationPlugin extends CordovaPlugin {
 
@@ -723,18 +725,36 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
      * @return String
      */
     public String setBgAnd11(){
-        if (Build.VERSION.SDK_INT < 30) return "version less than 30, nothing to do";
+        if (Build.VERSION.SDK_INT < 30) return "version less than 30 (R), nothing to do";
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED)
             return "permission granted";
-        String[] myStringArray = new String[1];
-        myStringArray[0] = Manifest.permission.ACCESS_BACKGROUND_LOCATION;
-        androidx.core.app.ActivityCompat.requestPermissions(getActivity(),myStringArray, REQUEST_BG);
 
-        return "Requested";
+        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+        alertDialog.setTitle("Background location permission");
+        alertDialog.setMessage("CarpoolNow will need to access your location in the background in order to best find matches while you are using your phone in other applications");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Accept",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        String[] myStringArray = new String[1];
+                        myStringArray[0] = Manifest.permission.ACCESS_BACKGROUND_LOCATION;
+                        androidx.core.app.ActivityCompat.requestPermissions(getActivity(),myStringArray, REQUEST_BG);
+                    }
+                });
+        alertDialog.setButton(
+                AlertDialog.BUTTON_NEGATIVE, "Refuse",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        alertDialog.show();
+
+        return "Resolved";
     }
 
 
-/**
+    /**
      * Only getting bg location permission. If not allowed, show setting page for user to choose
      * @return boolean
      */
