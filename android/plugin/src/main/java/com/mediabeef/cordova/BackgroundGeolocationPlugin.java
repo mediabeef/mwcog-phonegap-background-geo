@@ -729,6 +729,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED)
             return "permission granted";
 
+        /* code to show native dialog
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
         alertDialog.setTitle("Background location permission");
         alertDialog.setMessage("CarpoolNow will need to access your location in the background in order to best find matches while you are using your phone in other applications");
@@ -748,7 +749,11 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
                         dialog.cancel();
                     }
                 });
-        alertDialog.show();
+        alertDialog.show();*/
+
+        String[] myStringArray = new String[1];
+        myStringArray[0] = Manifest.permission.ACCESS_BACKGROUND_LOCATION;
+        androidx.core.app.ActivityCompat.requestPermissions(getActivity(),myStringArray, REQUEST_BG);
 
         return "Resolved";
     }
