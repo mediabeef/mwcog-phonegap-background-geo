@@ -483,6 +483,12 @@ See [DEBUGGING.md](/DEBUGGING.md)
 ## Geofencing
 There is nice cordova plugin [cordova-plugin-geofence](https://github.com/cowbell/cordova-plugin-geofence), which does exactly that. Let's keep this plugin lightweight as much as possible.
 
+## MWCOG
+Verified trip points are posted via API call https://tdm.commuterconnections.org/mwcog/verifiedtripservicecontrol
+Read more at LocationService.java
+
+
+
 ## Changelog
 
 See [CHANGES.md](/CHANGES.md)

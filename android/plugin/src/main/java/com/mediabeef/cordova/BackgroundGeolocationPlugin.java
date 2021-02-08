@@ -725,7 +725,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
      * @return String
      */
     public String setBgAnd11(){
-        if (Build.VERSION.SDK_INT < 30) return "version less than 30 (R), nothing to do";
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) return "version less than 30 (R), nothing to do";
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED)
             return "permission granted";
 
