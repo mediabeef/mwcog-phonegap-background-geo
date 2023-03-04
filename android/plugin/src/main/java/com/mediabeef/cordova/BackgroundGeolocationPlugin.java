@@ -600,6 +600,9 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
         // service will be restarted if not running already
         log.info("Sending broadcast RestartLocationService");
         Intent broadcastIntent = new Intent("com.mediabeef.bgloc.RestartLocationService");
+        broadcastIntent.setClass(this.getContext(), this.getClass());
+        broadcastIntent.setPackage("com.mediabeef.bgloc");
+
         getContext().sendBroadcast(broadcastIntent);
 
     }

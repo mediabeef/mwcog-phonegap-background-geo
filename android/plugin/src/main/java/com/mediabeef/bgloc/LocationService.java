@@ -45,7 +45,7 @@ import java.util.Date;
 import java.util.List;
 
 public class LocationService extends Service {
-    
+
     //private static final String FLEX_TRIP_API_URL ="http://mwcog2.mediabeef.com/mwcog/verifiedtripservicecontrol"; // DEV
     private static final String FLEX_TRIP_API_URL ="https://tdm.commuterconnections.org/mwcog/verifiedtripservicecontrol"; // PROD
 
@@ -224,6 +224,8 @@ public class LocationService extends Service {
         if (Build.VERSION.SDK_INT > 24) {
             log.info("Sending broadcast RestartLocationService");
             Intent broadcastIntent = new Intent("com.mediabeef.bgloc.RestartLocationService");
+            broadcastIntent.setClass(getApplicationContext(), this.getClass());
+            broadcastIntent.setPackage("com.mediabeef.bgloc");
             sendBroadcast(broadcastIntent);
         }
     }
@@ -264,6 +266,9 @@ public class LocationService extends Service {
         // service will be restarted if not running already
         log.info("Sending broadcast RestartLocationService");
         Intent broadcastIntent = new Intent("com.mediabeef.bgloc.RestartLocationService");
+        broadcastIntent.setClass(getApplicationContext(), this.getClass());
+        broadcastIntent.setPackage("com.mediabeef.bgloc");
+
         sendBroadcast(broadcastIntent);
 
         super.onTaskRemoved(rootIntent);
